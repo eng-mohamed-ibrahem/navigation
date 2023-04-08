@@ -32,10 +32,11 @@ class CustomizedTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: const TextStyle(fontSize: 20),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: onChanged,
       maxLength: maxLength,
-      maxLines: maxLines,
+      maxLines: maxLines ?? 1,
       controller: controller,
       validator: validator,
       autofocus: autofocus ?? false,

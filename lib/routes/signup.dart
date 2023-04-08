@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:navigation/routes/profile.dart';
 
 import '../customized/cutomized_edit_form_text.dart';
 import '../utility_method/utility_methods.dart';
@@ -132,7 +135,13 @@ class _SignUptState extends State<SignUp> {
                 onPressed: () {
                   // check if every filed has evilated its conditions
                   if (_globalFormKey.currentState!.validate()) {
-                    // navigate to details page
+                    // navigate to profile page
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Profile(),
+                      ),(route) => false,
+                    );
                   }
                 },
                 child: const Padding(
