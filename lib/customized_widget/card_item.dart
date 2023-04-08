@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/customized/custom_text.dart';
+import 'package:navigation/customized_widget/custom_text.dart';
 import '../dart_classes/order.dart';
 
 class CardItem extends StatelessWidget {

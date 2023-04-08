@@ -1,4 +1,3 @@
-
 // argument: email is empty String if no input is entered
 String? emailValidated(String? email) {
   if (email!.isEmpty) {
@@ -25,6 +24,9 @@ String? passwordValidated(String? password) {
 String? phoneValidated(String? phone) {
   if (phone!.isEmpty) {
     return 'Phone cannot be left blank';
+  } else if (!RegExp(r'^[0-9]+$').hasMatch(phone)) {
+    // for desktop and web versions
+    return 'Phone cannot have chracters';
   } else if (phone.length != 11) {
     return 'Phone must be 11 digits';
   }

@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:navigation/routes/profile.dart';
-
-import '../customized/cutomized_edit_form_text.dart';
+import '../customized_widget/cutomized_edit_form_text.dart';
 import '../utility_method/utility_methods.dart';
 
 class SignUp extends StatefulWidget {
@@ -140,7 +137,8 @@ class _SignUptState extends State<SignUp> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Profile(),
-                      ),(route) => false,
+                      ),
+                      (route) => false,
                     );
                   }
                 },
