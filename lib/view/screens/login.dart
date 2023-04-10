@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/routes/signup.dart';
-import '../utility_method/utility_methods.dart';
+import 'package:navigation/view/screens/signup.dart';
+import '../../model/utility_method/utility_methods.dart';
 
 
 // create statefullWidget because there is widget will changed during an action

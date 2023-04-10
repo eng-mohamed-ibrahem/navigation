@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/dart_classes/order.dart';
+import 'package:navigation/model/dart_classes/order.dart';
 
-import '../customized_widget/card_item.dart';
+import '../components/card_item.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

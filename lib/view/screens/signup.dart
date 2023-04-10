@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/routes/profile.dart';
-import '../customized_widget/cutomized_edit_form_text.dart';
-import '../utility_method/utility_methods.dart';
+import 'package:navigation/view/screens/profile.dart';
+import '../components/customized_edit_form_text.dart';
+import '../../model/utility_method/utility_methods.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -33,7 +33,7 @@ class _SignUptState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: const Text('Sign up'),
       ),
