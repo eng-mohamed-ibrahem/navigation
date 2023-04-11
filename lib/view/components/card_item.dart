@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/view/components/customized_text.dart';
-import '../../model/dart_classes/order.dart';
+import '../../model/objects/order.dart';
 
 class CardItem extends StatelessWidget {
   final Order order;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/model/dart_classes/order.dart';
+import 'package:navigation/model/objects/order.dart';
 
 import '../components/card_item.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/view/screens/profile.dart';
+import 'package:navigation/view/screens/navigation_bar.dart';
 import '../components/customized_edit_form_text.dart';
 import '../../model/utility_method/utility_methods.dart';
 
@@ -11,6 +11,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUptState extends State<SignUp> {
+
   final TextEditingController phController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController rePassController = TextEditingController();
@@ -33,7 +34,7 @@ class _SignUptState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Sign up'),
       ),
@@ -136,7 +137,8 @@ class _SignUptState extends State<SignUp> {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Profile(),
+                        // add new route
+                        builder: (context) =>  CustomNavigationBar(email: emailController.text),
                       ),
                       (route) => false,
                     );
