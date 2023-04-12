@@ -6,12 +6,7 @@ void main(List<String> args) {
   runApp(
     const MaterialApp(
       title: 'Navigation',
-      home: SignUp(),
+      home: SignUp(), 
     ),
   );
 }
-
-
-
-
-
