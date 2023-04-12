@@ -173,19 +173,22 @@ class _SignUptState extends State<SignUp> {
                                           email: emailController.text.trim(),
                                           salary: num.parse(
                                               salaryController.text.trim()),
-                                          password: passController.text)
+                                          password: passController.text,
+                                          lifeStory:
+                                              storyController.text.trim())
                                       .toJson())
-                              .whenComplete(() =>
-                                  // navigate to profile page
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      // add new route
-                                      builder: (context) => CustomNavigationBar(
-                                          email: emailController.text),
-                                    ),
-                                    (route) => false,
-                                  ));
+                              .whenComplete(() {
+                            // navigate to profile page
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                // add new route
+                                builder: (context) => CustomNavigationBar(
+                                    email: emailController.text),
+                              ),
+                              (route) => false,
+                            );
+                          });
                         }
                       },
                 child: _isLoading
