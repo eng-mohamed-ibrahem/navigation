@@ -168,16 +168,18 @@ class _SignUptState extends State<SignUp> {
                               .setString(
                                   'user',
                                   User(
-                                          name: nameController.text.trim(),
-                                          phone: phController.text,
-                                          email: emailController.text.trim(),
-                                          salary: num.parse(
-                                              salaryController.text.trim()),
-                                          password: passController.text,
-                                          lifeStory:
-                                              storyController.text.trim())
-                                      .toJson())
+                                    name: nameController.text.trim(),
+                                    phone: phController.text,
+                                    email: emailController.text.trim(),
+                                    salary:
+                                        num.parse(salaryController.text.trim()),
+                                    password: passController.text,
+                                    lifeStory: storyController.text.trim(),
+                                  ).toJson())
                               .whenComplete(() {
+                            // save the current route or page of user
+                            // _preferences.setString('route', 'profile');
+
                             // navigate to profile page
                             Navigator.pushAndRemoveUntil(
                               context,

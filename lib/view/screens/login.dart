@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:navigation/view/screens/navigation_bar.dart';
+import 'package:navigation/view/screens/password_forget.dart';
 import 'package:navigation/view/screens/signup.dart';
 import '../../model/utility_method/utility_methods.dart';
-
+import '../components/customized_edit_form_text.dart';
 
 // create statefullWidget because there is widget will changed during an action
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<LoginScreen> createState() {
+  State<Login> createState() {
     return _LoginScreenState();
   }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<Login> {
   bool visibilty = false;
 
 // creating global key which idenfy uniqe form
 // apply to form thar provide validation
   final _globalFormKey = GlobalKey<FormState>();
 
-  final eController = TextEditingController();
-  final pController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    eController.addListener(() => debugPrint(eController.text));
-    pController.addListener(() => debugPrint(pController.text));
-  }
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   void dispose() {
-    eController.dispose();
-    pController.dispose();
+    emailController.dispose();
+    emailController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
   }
 
   @override
@@ -49,42 +49,61 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * .2,
               ),
-              TextFormField(
-                onChanged: (value) => debugPrint(value),
-                controller: eController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  labelText: 'email',
-                  helperText: 'example@gmail.com',
-                  prefixIcon: const Icon(Icons.email_outlined),
-                ),
-                validator: (value) => emailValidated(value),
+              CustomizedTextFormField(
+                autovalidateMode: AutovalidateMode.disabled,
+                controller: emailController,
+                labelText: 'email',
+                helperText: 'example@gmail.com',
+                prefixIcon: const Icon(Icons.email_outlined),
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                // check if this email already loged in
+                // validator:
               ),
               const SizedBox(
                 height: 30,
               ),
-              TextFormField(
-                controller: pController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  labelText: 'password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                  suffixIcon: InkWell(
-                    onTap: () => setState(() {
-                      visibilty = !visibilty;
-                    }),
-                    child: visibilty
-                        ? const Icon(Icons.visibility)
-                        : const Icon(Icons.visibility_off),
+              CustomizedTextFormField(
+                autovalidateMode: AutovalidateMode.disabled,
+                controller: passController,
+                labelText: 'password',
+                prefixIcon: const Icon(Icons.lock_outline_rounded),
+                obscureText: !visibilty,
+                suffixIcon: InkWell(
+                  onTap: () => setState(() {
+                    visibilty = !visibilty;
+                  }),
+                  child: visibilty
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off),
+                ),
+                // check this password corresponding to that email
+                // validator
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: InkWell(
+                  onTap: () {
+                    // navigate to forgetPassword page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgetPassword(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Forget Password ?',
+                    style: TextStyle(
+                      color: Colors.lightBlue.shade600,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
-                obscureText: !visibilty,
-                // apply password validation
-                validator: (value) => passwordValidated(value),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .2,
@@ -92,28 +111,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_globalFormKey.currentState!.validate()) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Sensitive Info'),
-                          content: Text(
-                              'email: ${eController.text}\npass: ${pController.text}'),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SignUp(),
-                                    ),
-                                    (route) => false,
-                                  );
-                                },
-                                child: const Text('OK'))
-                          ],
-                        );
-                      },
+                    // navigate to CustomNavigationBar
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CustomNavigationBar(),
+                      ),
+                      (route) => false,
                     );
                   }
                 },
@@ -124,7 +128,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    // navigate to sign up page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUp(),
+                      ),
+                    );
+                  },
+                  child: RichText(
+                    text: TextSpan(children: [
+                      const TextSpan(
+                          text: 'Dont have account? ',
+                          style: TextStyle(color: Colors.black)),
+                      TextSpan(
+                        text: 'Sign up',
+                        style: TextStyle(
+                          color: Colors.lightBlue.shade600,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

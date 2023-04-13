@@ -12,6 +12,7 @@ class CustomizedTextFormField extends StatelessWidget {
   final String? helperText;
   final int? maxLength;
   final int? maxLines;
+  final AutovalidateMode? autovalidateMode;
   final void Function(String)? onChanged; // anonymous function
 
   const CustomizedTextFormField(
@@ -27,13 +28,14 @@ class CustomizedTextFormField extends StatelessWidget {
       this.helperText,
       this.maxLength,
       this.maxLines,
-      this.onChanged});
+      this.onChanged,
+      this.autovalidateMode});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: const TextStyle(fontSize: 20),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: autovalidateMode ?? AutovalidateMode.onUserInteraction,
       onChanged: onChanged,
       maxLength: maxLength,
       maxLines: maxLines ?? 1,

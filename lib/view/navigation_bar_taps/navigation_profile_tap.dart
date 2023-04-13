@@ -5,6 +5,8 @@ class NavProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Profile Tap'),);
+    return ListView(padding:const EdgeInsets.all(15),children: [
+      
+    ],);
   }
 }
