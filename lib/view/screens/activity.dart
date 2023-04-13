@@ -3,8 +3,8 @@ import 'package:navigation/model/objects/order.dart';
 
 import '../components/card_item.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class Activity extends StatelessWidget {
+  const Activity({super.key});
 
   @override
   Widget build(BuildContext context) {

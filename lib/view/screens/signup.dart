@@ -177,9 +177,9 @@ class _SignUptState extends State<SignUp> {
                                     lifeStory: storyController.text.trim(),
                                   ).toJson())
                               .whenComplete(() {
-                            // save the current route or page of user
-                            // _preferences.setString('route', 'profile');
+                            // TODO save the current route or page of user
 
+                            // then,
                             // navigate to profile page
                             Navigator.pushAndRemoveUntil(
                               context,

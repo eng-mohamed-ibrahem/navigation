@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/view/screens/signup.dart';
+import 'package:navigation/view/screens/login.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String? data;
@@ -58,7 +58,7 @@ class CustomDrawer extends StatelessWidget {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const SignUp(),
+                                    builder: (context) => const Login(),
                                   ),
                                   (route) => false);
                             },
