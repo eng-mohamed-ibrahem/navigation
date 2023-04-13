@@ -11,7 +11,7 @@ class User {
   
   User(
       {required this.email,
-      this.lifeStory,
+      required this.lifeStory,
       required this.name,
       required this.phone,
       required this.password,

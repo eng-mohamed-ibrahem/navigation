@@ -1,8 +1,8 @@
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation/view/screens/login.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:navigation/view/screens/splash_screen.dart';
 
 void main(List<String> args) {
   runApp(
@@ -14,7 +14,7 @@ void main(List<String> args) {
     GlobalWidgetsLocalizations.delegate,
   ],
       title: 'Navigation',
-      home: Login(),
+      home: SplashScreen(),
     ),
   );
 }

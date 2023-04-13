@@ -8,20 +8,14 @@ class Activity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Customer'),
-        backgroundColor: const Color.fromRGBO(62, 84, 172, 1),
-      ),
-      body: Container(
-        color: const Color.fromRGBO(236, 242, 255, 1),
-        padding: const EdgeInsets.all(10),
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return CardItem(order: orders[index]);
-          },
-          itemCount: orders.length,
-        ),
+    return Container(
+      color: const Color.fromRGBO(236, 242, 255, 1),
+      padding: const EdgeInsets.all(10),
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return CardItem(order: orders[index]);
+        },
+        itemCount: orders.length,
       ),
     );
   }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
-import '../navigation_bar_taps/navigation_home_tap.dart';
+import 'package:navigation/view/screens/activity.dart';
 
 
 
 
 class CustomNavigationBar extends StatefulWidget {
-  final String? email;
-  const CustomNavigationBar({super.key, this.email=''});
+  
+  const CustomNavigationBar({super.key});
 
   @override
   State<CustomNavigationBar> createState() => _MyWidgetState();
@@ -17,7 +17,7 @@ class CustomNavigationBar extends StatefulWidget {
 class _MyWidgetState extends State<CustomNavigationBar> {
  
 
-  List<Widget> taps = [const HomePage(), const NavProfile()];
+  List<Widget> taps = [const Activity(), const NavProfile()];
   int tapIndex = 0;
   
 
@@ -25,7 +25,7 @@ class _MyWidgetState extends State<CustomNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer:  CustomDrawer(data: widget.email),
+      drawer:  const CustomDrawer(),
       body: taps[tapIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [

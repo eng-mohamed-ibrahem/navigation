@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:navigation/view/screens/login.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final String? data;
-  const CustomDrawer({super.key, this.data});
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(data ?? '')
+                const Text('')
               ],
             ),
           ),

@@ -185,8 +185,8 @@ class _SignUptState extends State<SignUp> {
                               context,
                               MaterialPageRoute(
                                 // add new route
-                                builder: (context) => CustomNavigationBar(
-                                    email: emailController.text),
+                                builder: (context) =>
+                                    const CustomNavigationBar(),
                               ),
                               (route) => false,
                             );

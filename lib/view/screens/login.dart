@@ -56,7 +56,7 @@ class _LoginScreenState extends State<Login> {
                 ),
                 Image.asset(
                   '../assets/images/flutter_image.jpg',
-                  height: 120,
+                  // height: 120,
                 ),
                 const SizedBox(
                   height: 30,
