@@ -3,6 +3,8 @@ import 'package:navigation/view/screens/login.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controller/shared_preference_controller.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -13,19 +15,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() async {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () async {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        // return SharedPrefController(pref: preferences).getUser;
-        return preferences.getString('user');
-      },
-    ).then((user) {
+    SharedPrefController prefController =
+        SharedPrefController(pref: await SharedPreferences.getInstance());
+    // i dont use a wait because i want to exceed to build method until finsh future code
+    prefController.getUser().then((user) {
       if (user != null) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const CustomNavigationBar(),
+              builder: (context) => CustomNavigationBar(
+                user: user,
+              ),
             ),
             (route) => false);
       } else {
@@ -37,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
             (route) => false);
       }
     });
+
     super.didChangeDependencies();
   }
 
@@ -48,9 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
         child: const Center(
           child: Text(
             'Navigation',
-            style: TextStyle(
-                color:  Color.fromRGBO(114, 82, 219, 1),
-                fontSize: 50),
+            style:
+                TextStyle(color: Color.fromRGBO(114, 82, 219, 1), fontSize: 50),
           ),
         ),
       ),

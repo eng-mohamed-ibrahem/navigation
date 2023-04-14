@@ -31,6 +31,7 @@ class User {
   factory User.fromJson({required String jsonUser}) {
     dynamic user = jsonDecode(jsonUser);
 
+    
     return User(
         name: user['name'],
         email: user['email'],

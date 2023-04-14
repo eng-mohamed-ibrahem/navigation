@@ -3,29 +3,36 @@ import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
 import 'package:navigation/view/screens/activity.dart';
 
-
-
+import '../../model/objects/user.dart';
 
 class CustomNavigationBar extends StatefulWidget {
-  
-  const CustomNavigationBar({super.key});
+  final User? user;
+  const CustomNavigationBar({super.key, required this.user});
 
   @override
   State<CustomNavigationBar> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<CustomNavigationBar> {
- 
+  late List<Widget> taps;
+  @override
+  void initState() {
+    taps = [const Activity(), NavProfile(user: widget.user)];
+    super.initState();
+  }
 
-  List<Widget> taps = [const Activity(), const NavProfile()];
   int tapIndex = 0;
-  
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer:  const CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: taps[tapIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [

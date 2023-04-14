@@ -4,6 +4,7 @@ import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:navigation/view/screens/forget_password.dart';
 import 'package:navigation/view/screens/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../model/objects/user.dart';
 import '../components/customized_edit_form_text.dart';
 
 // create statefullWidget because there is widget will changed during an action
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<Login> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   late SharedPrefController sharedPrefController;
+  late User? _user;
 
   @override
   void dispose() {
@@ -38,6 +40,8 @@ class _LoginScreenState extends State<Login> {
   void didChangeDependencies() async {
     sharedPrefController =
         SharedPrefController(pref: await SharedPreferences.getInstance());
+
+    _user = await sharedPrefController.getUser();
     super.didChangeDependencies();
   }
 
@@ -118,18 +122,20 @@ class _LoginScreenState extends State<Login> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (sharedPrefController
-                            .checkEmail(emailController.text.trim()) &&
-                        sharedPrefController
-                            .checkPassword(passController.text)) {
-                      // navigate to CustomNavigationBar
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CustomNavigationBar(),
-                        ),
-                        (route) => false,
-                      );
+                    if (_user != null) {
+                      if (_user!.email == (emailController.text.trim()) &&
+                          _user!.password == passController.text) {
+                        // navigate to CustomNavigationBar
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CustomNavigationBar(
+                              user: _user,
+                            ),
+                          ),
+                          (route) => false,
+                        );
+                      }
                     } else {
                       // show snakbar
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -138,8 +144,7 @@ class _LoginScreenState extends State<Login> {
                             'wrong email or password',
                             style: TextStyle(color: Colors.white),
                           ),
-                          action: SnackBarAction(
-                              label: 'Ok', onPressed: (){}),
+                          action: SnackBarAction(label: 'Ok', onPressed: () {}),
                           padding: const EdgeInsets.all(10),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),

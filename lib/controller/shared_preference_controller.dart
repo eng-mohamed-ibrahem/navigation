@@ -6,31 +6,45 @@ class SharedPrefController {
   final SharedPreferences _pref;
   late User? _user;
 
-  SharedPrefController({required SharedPreferences pref}) : _pref = pref {
-    _getUser();
-  }
+  SharedPrefController({required SharedPreferences pref}) : _pref = pref;
 
-  User? get getUser => _user;
+  // User? get getUser => _user; // error has not been initialized
 
   /// wait until user is get, to can make check on its attributes
-  _getUser() async {
+  Future<User?> getUser() async {
     try {
       await Future(() {
-        return User.fromJson(jsonUser: _pref.getString('user')!);
+        if (_pref.getString('user') == null) {
+          return null;
+        } else {
+          return User.fromJson(jsonUser: _pref.getString('user')!);
+        }
       }).then((value) {
-        _user = value;
+        return value;
       });
     } on Exception catch (e) {
       debugPrint('there is problem in bringing data from shared preference');
     }
+    return null;
   }
 
-  bool checkEmail(String? email) {
-    return _user!.email == email;
+  Future<bool> checkEmail(String? email) async {
+    _user = await getUser();
+    if (_user != null) {
+      return _user!.email == email;
+    } else {
+      return false;
+    }
   }
 
-  bool checkPassword(String? password) {
-    return _user!.password == password;
+  Future<bool> checkPassword(String? password) async {
+    _user = await getUser();
+
+    if (_user != null) {
+      return _user!.password == password;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> clearData() {

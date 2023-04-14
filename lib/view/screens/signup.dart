@@ -24,6 +24,7 @@ class _SignUptState extends State<SignUp> {
   bool visibility = false;
   bool _isLoading = false;
   late SharedPreferences _preferences;
+  late User _user;
 
   @override
   void didChangeDependencies() async {
@@ -164,32 +165,39 @@ class _SignUptState extends State<SignUp> {
                           setState(() {
                             _isLoading = true;
                           });
+                          _user = User(
+                            name: nameController.text.trim(),
+                            phone: phController.text,
+                            email: emailController.text.trim(),
+                            salary: num.parse(salaryController.text.trim()),
+                            password: passController.text,
+                            lifeStory: storyController.text.trim(),
+                          );
                           await _preferences
-                              .setString(
-                                  'user',
-                                  User(
-                                    name: nameController.text.trim(),
-                                    phone: phController.text,
-                                    email: emailController.text.trim(),
-                                    salary:
-                                        num.parse(salaryController.text.trim()),
-                                    password: passController.text,
-                                    lifeStory: storyController.text.trim(),
-                                  ).toJson())
-                              .whenComplete(() {
-                            // TODO save the current route or page of user
-
-                            // then,
-                            // navigate to profile page
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                // add new route
-                                builder: (context) =>
-                                    const CustomNavigationBar(),
-                              ),
-                              (route) => false,
-                            );
+                              .setString('user', User(
+                            name: nameController.text.trim(),
+                            phone: phController.text,
+                            email: emailController.text.trim(),
+                            salary: num.parse(salaryController.text.trim()),
+                            password: passController.text,
+                            lifeStory: storyController.text.trim(),
+                          ).toJson())
+                              .then((value) {
+                            if (value) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomNavigationBar(user: _user),
+                                ),
+                                (route) => false,
+                              );
+                            } else {
+                              // there is problem in sign up
+                              setState(() async {
+                                await _preferences.clear();
+                              });
+                            }
                           });
                         }
                       },

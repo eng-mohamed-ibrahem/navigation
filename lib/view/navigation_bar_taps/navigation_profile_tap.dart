@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../model/objects/user.dart';
+
+// statefull to bring data
+
 class NavProfile extends StatelessWidget {
-  const NavProfile({super.key});
+  
+  
+  final User? user;
+  const NavProfile({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +20,41 @@ class NavProfile extends StatelessWidget {
             height: 30,
           ),
           Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: const [
-                CircleAvatar(
-                  backgroundImage: AssetImage('../assets/images/profile.png'),
-                ),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Icon(Icons.camera_alt_outlined)),
-              ],
+            child: SizedBox(
+              height: 150,
+              width: 150,
+              child: Stack(
+                clipBehavior: Clip.none,
+                fit: StackFit.expand,
+                children: [
+                  const CircleAvatar(
+                    backgroundImage: AssetImage('../assets/images/profile.png'),
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {},
+                        child: CircleAvatar(
+                          backgroundColor: Colors.amber.shade700,
+                          child:
+                              const Icon(Icons.camera_alt, color: Colors.white),
+                        ),
+                      )),
+                ],
+              ),
             ),
           ),
-          const Text('my name'),
+          const SizedBox(height: 20),
+          Text('${user!.name}'),
+          const SizedBox(height: 20),
+          Text('${user!.email}'),
+          const SizedBox(height: 20),
+          Text('${user!.lifeStory}'),
+          const SizedBox(height: 20),
+          Text('${user!.salary}'),
+          const SizedBox(height: 20),
+          Text('${user!.phone}'),
         ],
       ),
     );
