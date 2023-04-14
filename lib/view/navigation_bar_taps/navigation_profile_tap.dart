@@ -5,8 +5,6 @@ import '../../model/objects/user.dart';
 // statefull to bring data
 
 class NavProfile extends StatelessWidget {
-  
-  
   final User? user;
   const NavProfile({super.key, required this.user});
 
@@ -28,13 +26,13 @@ class NavProfile extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   const CircleAvatar(
-                    backgroundImage: AssetImage('../assets/images/profile.png'),
+                    backgroundImage: AssetImage('assets/images/profile.png'),
                   ),
                   Positioned(
                       bottom: 0,
                       right: 0,
                       child: InkWell(
-                        onTap: () {},
+                        borderRadius: BorderRadius.circular(5),
                         child: CircleAvatar(
                           backgroundColor: Colors.amber.shade700,
                           child:

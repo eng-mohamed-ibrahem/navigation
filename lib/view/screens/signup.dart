@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +26,7 @@ class _SignUptState extends State<SignUp> {
   bool visibility = false;
   bool _isLoading = false;
   late SharedPreferences _preferences;
-  late User _user;
+  late User? _user;
 
   @override
   void didChangeDependencies() async {
@@ -174,14 +176,7 @@ class _SignUptState extends State<SignUp> {
                             lifeStory: storyController.text.trim(),
                           );
                           await _preferences
-                              .setString('user', User(
-                            name: nameController.text.trim(),
-                            phone: phController.text,
-                            email: emailController.text.trim(),
-                            salary: num.parse(salaryController.text.trim()),
-                            password: passController.text,
-                            lifeStory: storyController.text.trim(),
-                          ).toJson())
+                              .setString('user', _user!.toJson())
                               .then((value) {
                             if (value) {
                               Navigator.pushAndRemoveUntil(
@@ -197,6 +192,7 @@ class _SignUptState extends State<SignUp> {
                               setState(() async {
                                 await _preferences.clear();
                               });
+                              log('------------- There is proble her --------');
                             }
                           });
                         }
