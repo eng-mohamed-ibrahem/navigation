@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomizedTextFormField extends StatelessWidget {
   final TextEditingController? controller;
@@ -14,6 +15,7 @@ class CustomizedTextFormField extends StatelessWidget {
   final int? maxLines;
   final AutovalidateMode? autovalidateMode;
   final void Function(String)? onChanged; // anonymous function
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomizedTextFormField(
       {super.key,
@@ -29,11 +31,13 @@ class CustomizedTextFormField extends StatelessWidget {
       this.maxLength,
       this.maxLines,
       this.onChanged,
-      this.autovalidateMode});
+      this.autovalidateMode,
+      this.inputFormatters});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputFormatters,
       style: const TextStyle(fontSize: 20),
       autovalidateMode: autovalidateMode ?? AutovalidateMode.onUserInteraction,
       onChanged: onChanged,

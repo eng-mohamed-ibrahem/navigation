@@ -188,11 +188,11 @@ class _SignUptState extends State<SignUp> {
                                 (route) => false,
                               );
                             } else {
-                              // there is problem in sign up
+                              // there is a problem in sign up
                               setState(() async {
                                 await _preferences.clear();
                               });
-                              log('------------- There is proble her --------');
+                              log('------------- There is problem her --------');
                             }
                           });
                         }

@@ -22,7 +22,7 @@ class SharedPrefController {
       }).then((value) {
         return value;
       });
-    } on Exception catch (e) {
+    } catch (e) {
       debugPrint('there is problem in bringing data from shared preference');
     }
     return null;

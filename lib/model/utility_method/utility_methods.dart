@@ -32,3 +32,8 @@ String? phoneValidated(String? phone) {
   }
   return null;
 }
+
+String? Function(String?)? example() {
+//
+return null;
+}
