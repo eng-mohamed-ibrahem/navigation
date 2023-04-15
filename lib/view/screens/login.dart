@@ -32,7 +32,7 @@ class _LoginScreenState extends State<Login> {
   @override
   void dispose() {
     emailController.dispose();
-    emailController.dispose();
+    passController.dispose();
     super.dispose();
   }
 
@@ -183,6 +183,7 @@ class _LoginScreenState extends State<Login> {
                         TextSpan(
                           text: 'Sign up',
                           style: TextStyle(
+                            fontSize: 20,
                             color: Colors.lightBlue.shade600,
                             fontWeight: FontWeight.w600,
                             decoration: TextDecoration.underline,

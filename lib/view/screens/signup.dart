@@ -175,7 +175,7 @@ class _SignUptState extends State<SignUp> {
                             password: passController.text,
                             lifeStory: storyController.text.trim(),
                           );
-                          await _preferences
+                           _preferences   // await
                               .setString('user', _user!.toJson())
                               .then((value) {
                             if (value) {

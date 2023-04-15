@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/view/screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -53,13 +54,19 @@ class CustomDrawer extends StatelessWidget {
                               onPressed: () => Navigator.pop(context),
                               child: const Text('Cancel')),
                           ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Login(),
-                                  ),
-                                  (route) => false);
+                            onPressed: () async {
+                              // clear cach data
+                              await SharedPreferences.getInstance()
+                                  .then((value) {
+                                value.clear().then((value) => {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const Login(),
+                                          ),
+                                          (route) => false)
+                                    });
+                              });
                             },
                             child: const Text('OK'),
                           ),
