@@ -81,19 +81,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 )
               ],
             ),
-            // CountryCodePicker(
-            //   showDropDownButton: true,
-            //   onChanged: print,
-            //   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-            //   initialSelection: 'IT',
-            //   favorite: const ['+39', 'FR'],
-            //   // countryFilter: const ['IT', 'FR'],
-            //   showFlagDialog: false,
-            //   comparator: (a, b) => b.name!.compareTo(a.name!),
-            //   //Get the country information relevant to the initial selection
-            //   onInit: (code) => debugPrint(
-            //       "on init ${code!.name} ${code.dialCode} ${code.name}"),
-            // )
             const SizedBox(
               height: 50,
             ),

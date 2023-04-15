@@ -11,14 +11,20 @@ class CustomizedTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
   final String? helperText;
+  final String? hintText;
   final int? maxLength;
   final int? maxLines;
   final AutovalidateMode? autovalidateMode;
   final void Function(String)? onChanged; // anonymous function
   final List<TextInputFormatter>? inputFormatters;
+  final bool? enabled;
+  final bool? readOnly;
 
   const CustomizedTextFormField(
       {super.key,
+      this.readOnly,
+      this.hintText,
+      this.enabled,
       this.controller,
       this.obscureText,
       this.autofocus,
@@ -37,6 +43,8 @@ class CustomizedTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
+      enabled: enabled ?? true,
       inputFormatters: inputFormatters,
       style: const TextStyle(fontSize: 20),
       autovalidateMode: autovalidateMode ?? AutovalidateMode.onUserInteraction,
@@ -54,6 +62,7 @@ class CustomizedTextFormField extends StatelessWidget {
         helperText: helperText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),

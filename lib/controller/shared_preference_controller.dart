@@ -24,26 +24,11 @@ class SharedPrefController {
     return _user;
   }
 
-  Future<bool> checkEmail(String? email) async {
-    _user = await getUser();
-    if (_user != null) {
-      return _user!.email == email;
-    } else {
-      return false;
-    }
-  }
 
-  Future<bool> checkPassword(String? password) async {
-    _user = await getUser();
 
-    if (_user != null) {
-      return _user!.password == password;
-    } else {
-      return false;
-    }
-  }
 
   Future<bool> clearData() {
     return _pref.clear();
   }
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigation/controller/shared_preference_controller.dart';
 import 'package:navigation/view/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,6 +45,9 @@ class CustomDrawer extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
+                        actionsAlignment: MainAxisAlignment.spaceAround,
+                        actionsPadding:
+                            const EdgeInsets.only(bottom: 5, top: 5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -56,16 +60,17 @@ class CustomDrawer extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () async {
                               // clear cach data
-                              await SharedPreferences.getInstance()
-                                  .then((value) {
-                                value.clear().then((value) => {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const Login(),
-                                          ),
-                                          (route) => false)
-                                    });
+                              await SharedPrefController(
+                                      pref:
+                                          await SharedPreferences.getInstance())
+                                  .clearData()
+                                  .whenComplete(() {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Login(),
+                                    ),
+                                    (route) => false);
                               });
                             },
                             child: const Text('OK'),

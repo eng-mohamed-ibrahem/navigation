@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void didChangeDependencies() async {
     SharedPrefController prefController =
         SharedPrefController(pref: await SharedPreferences.getInstance());
-    // i dont use a wait because i want to exceed to build method until finsh future code
+    // i dont use await because i want to exceed to build method until finsh future code
     prefController.getUser().then((user) {
       if (user != null) {
         Navigator.pushAndRemoveUntil(

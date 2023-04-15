@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/objects/user.dart';
@@ -79,7 +80,8 @@ class _SignUptState extends State<SignUp> {
                 controller: phController,
                 validator: phoneValidated,
                 labelText: 'Phone',
-                helperText: '11 digits',
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                maxLength: 11,
                 prefixIcon: const Icon(Icons.call),
                 keyboardType: TextInputType.phone,
               ),
@@ -111,6 +113,7 @@ class _SignUptState extends State<SignUp> {
                 controller: salaryController,
                 labelText: 'Salary',
                 keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               const SizedBox(
                 height: 50,
@@ -175,7 +178,7 @@ class _SignUptState extends State<SignUp> {
                             password: passController.text,
                             lifeStory: storyController.text.trim(),
                           );
-                           _preferences   // await
+                          _preferences // await
                               .setString('user', _user!.toJson())
                               .then((value) {
                             if (value) {
