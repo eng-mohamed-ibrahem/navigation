@@ -19,9 +19,11 @@ class CustomizedTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool? enabled;
   final bool? readOnly;
+  final Widget? label;
 
   const CustomizedTextFormField(
       {super.key,
+      this.label,
       this.readOnly,
       this.hintText,
       this.enabled,
@@ -59,6 +61,7 @@ class CustomizedTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(20),
         labelText: labelText,
+        label: label,
         helperText: helperText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,

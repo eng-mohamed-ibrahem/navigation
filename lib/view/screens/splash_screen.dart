@@ -15,6 +15,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void didChangeDependencies() async {
+
+    
     SharedPrefController prefController =
         SharedPrefController(pref: await SharedPreferences.getInstance());
     // i dont use await because i want to exceed to build method until finsh future code
@@ -44,15 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.black,
-        child: const Center(
-          child: Text(
-            'Navigation',
-            style:
-                TextStyle(color: Color.fromRGBO(114, 82, 219, 1), fontSize: 50),
-          ),
-        ),
+      body: Image.asset(
+        'assets/images/flutter_image.jpg',
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.contain,
       ),
     );
   }
