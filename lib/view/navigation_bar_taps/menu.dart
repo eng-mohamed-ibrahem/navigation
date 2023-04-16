@@ -67,8 +67,8 @@ final List<FoodItem> foodItem = [
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
       name: 'ducks',
-      price: 12.3,
-      rating: 4.2,
+      price: 10.3,
+      rating: 1.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:navigation/model/objects/food_item.dart';
 
@@ -28,17 +29,23 @@ class _MenuItemState extends State<MenuItem> {
             clipBehavior: Clip.antiAlias,
             child: Stack(
               children: [
-                InkWell(
-                  onDoubleTap: () {
-                    setState(() {
-                      widget.foodItem.isLiked = !widget.foodItem.isLiked;
-                    });
-                  },
-                  child: Image.asset(
-                    widget.foodItem.imageUri,
-                    width: 250,
-                    height: 200,
-                    fit: BoxFit.cover,
+                Animate(
+                  effects: const [
+                    FadeEffect(duration: Duration(milliseconds: 500)),
+                    SlideEffect(duration: Duration(milliseconds: 400)),
+                  ],
+                  child: InkWell(
+                    onDoubleTap: () {
+                      setState(() {
+                        widget.foodItem.isLiked = !widget.foodItem.isLiked;
+                      });
+                    },
+                    child: Image.asset(
+                      widget.foodItem.imageUri,
+                      width: 250,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Positioned(
