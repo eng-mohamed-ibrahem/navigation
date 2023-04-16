@@ -3,15 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:navigation/model/objects/food_item.dart';
 
 class MenuItem extends StatefulWidget {
-  FoodItem foodItem;
-  MenuItem({super.key, required this.foodItem});
+  final FoodItem foodItem;
+  const MenuItem({super.key, required this.foodItem});
 
   @override
   State<StatefulWidget> createState() => _MenuItemState();
 }
 
 class _MenuItemState extends State<MenuItem> {
-  
   @override
   Widget build(BuildContext context) {
     return Card(
