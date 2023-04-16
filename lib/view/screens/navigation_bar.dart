@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
-import 'package:navigation/view/screens/activity.dart';
+import 'package:navigation/view/navigation_bar_taps/activity.dart';
+import 'package:navigation/view/navigation_bar_taps/menu.dart';
 
 import '../../model/objects/user.dart';
 
@@ -14,10 +15,11 @@ class CustomNavigationBar extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<CustomNavigationBar> {
+
   late List<Widget> taps;
   @override
   void initState() {
-    taps = [const Activity(), NavProfile(user: widget.user)];
+    taps = [const MyMenu(),const Activity(), NavProfile(user: widget.user)];
     super.initState();
   }
 
@@ -37,7 +39,9 @@ class _MyWidgetState extends State<CustomNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: "Home"),
+              icon: Icon(Icons.home_outlined), label: "Menu"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.history), label: 'History'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_2_outlined), label: 'Me')
         ],

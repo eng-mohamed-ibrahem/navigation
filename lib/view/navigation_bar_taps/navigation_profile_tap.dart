@@ -33,7 +33,6 @@ class NavProfile extends StatelessWidget {
                     bottom: 0,
                     right: 0,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(5),
                       child: CircleAvatar(
                         backgroundColor: Colors.amber.shade700,
                         child:
@@ -48,44 +47,45 @@ class NavProfile extends StatelessWidget {
           const SizedBox(height: 50),
           CustomizedTextFormField(
             readOnly: true,
-            // enabled: false,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: '${user!.name}',
-            label: const Text('My Name'),
+            labelText: 'My Name',
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
-            // enabled: false,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: '${user!.email}',
             label: const Text('My Email'),
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
-            // enabled: false,
             readOnly: true,
             hintText: '${user!.phone}',
             label: const Text('My Mobile Number'),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
-            // enabled: false,
             readOnly: true,
             hintText: '${user!.salary}',
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             label: const Text('My Salary'),
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
-            // enabled: false,
             hintText: '${user!.lifeStory}',
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             label: const Text('My Life Story'),
             maxLines: 5,
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
-            // enabled: false,
             hintText: '${user!.password}',
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             label: const Text('My Password'),
           ),
         ],

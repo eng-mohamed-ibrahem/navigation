@@ -1,7 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:navigation/view/screens/menu.dart';
 import 'package:navigation/view/screens/splash_screen.dart';
 
 void main(List<String> args) {
@@ -17,7 +16,7 @@ void main(List<String> args) {
         GlobalWidgetsLocalizations.delegate,
       ],
       title: 'Navigation',
-      home: MyMenu(), // MyMenu SplashScreen
+      home: SplashScreen(), // MyMenu SplashScreen
     ),
   );
 }
