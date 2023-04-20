@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:navigation/view/components/customized_edit_form_text.dart';
 
 import '../../model/utility_method/utility_methods.dart';
 
-class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({super.key});
+class ForgetPassword extends StatelessWidget {
+  ForgetPassword({super.key});
 
-  @override
-  State<ForgetPassword> createState() => _ForgetPasswordState();
-}
+  final GlobalKey<FormState> _globalKey =
+      useMemoized(() => GlobalKey<FormState>());
 
-class _ForgetPasswordState extends State<ForgetPassword> {
-  final TextEditingController phController = TextEditingController();
+  final TextEditingController phController = useTextEditingController();
 
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   CountryCode? _displayCode;
-
-  @override
-  void dispose() {
-    phController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +84,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     SnackBar(
                       padding: const EdgeInsets.all(10),
                       content: Text(
-                          'sent code to ${_displayCode!.dialCode}-${phController.text}'),
+                          'sent code to ${_displayCode!.dialCode} - ${phController.text}'),
                       dismissDirection: DismissDirection.down,
                     ),
                   );

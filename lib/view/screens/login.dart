@@ -1,52 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/controller/shared_preference_controller.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:navigation/view/screens/forget_password.dart';
 import 'package:navigation/view/screens/signup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../controller/providers/user_state_provider.dart';
 import '../../model/objects/user.dart';
+import '../../model/utility_method/utility_methods.dart';
 import '../components/customized_edit_form_text.dart';
 
-// create statefullWidget because there is widget will changed during an action
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Login extends ConsumerWidget {
+  Login({super.key});
 
-  @override
-  State<Login> createState() {
-    return _LoginScreenState();
-  }
-}
+  final visibilityProvider = StateProvider<bool>((ref) => false);
 
-class _LoginScreenState extends State<Login> {
-  bool visibilty = false;
+  final _globalFormKey = useMemoized(() => GlobalKey<FormState>());
 
-// creating global key which idenfy uniqe form
-// apply to form thar provide validation
-  final _globalFormKey = GlobalKey<FormState>();
+  final TextEditingController emailController = useTextEditingController();
+  final TextEditingController passController = useTextEditingController();
 
-  final emailController = TextEditingController();
-  final passController = TextEditingController();
   late SharedPrefController sharedPrefController;
   late User? _user;
 
   @override
-  void dispose() {
-    emailController.dispose();
-    passController.dispose();
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    _user = ref.watch(userStateProvider);
 
-  @override
-  void didChangeDependencies() async {
-    sharedPrefController =
-        SharedPrefController(pref: await SharedPreferences.getInstance());
+    final visibilty = ref.read(visibilityProvider);
 
-    _user = await sharedPrefController.getUser();
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
         key: _globalFormKey,
@@ -67,6 +49,7 @@ class _LoginScreenState extends State<Login> {
                 ),
                 CustomizedTextFormField(
                   autovalidateMode: AutovalidateMode.disabled,
+                  validator: emailValidated,
                   controller: emailController,
                   labelText: 'Email',
                   helperText: 'example@gmail.com',
@@ -84,9 +67,9 @@ class _LoginScreenState extends State<Login> {
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   obscureText: !visibilty,
                   suffixIcon: InkWell(
-                    onTap: () => setState(() {
-                      visibilty = !visibilty;
-                    }),
+                    onTap: () => ref
+                        .watch(visibilityProvider.notifier)
+                        .update((state) => !visibilty),
                     child: visibilty
                         ? const Icon(Icons.visibility)
                         : const Icon(Icons.visibility_off),
@@ -103,7 +86,7 @@ class _LoginScreenState extends State<Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ForgetPassword(),
+                          builder: (context) =>  ForgetPassword(),
                         ),
                       );
                     },
@@ -122,34 +105,37 @@ class _LoginScreenState extends State<Login> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_user != null) {
-                      if (_user!.email == (emailController.text.trim()) &&
-                          _user!.password == passController.text) {
-                        // navigate to CustomNavigationBar
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CustomNavigationBar(
-                              user: _user,
+                    if (_globalFormKey.currentState!.validate()) {
+                      if (_user != null) {
+                        if (_user!.email == (emailController.text.trim()) &&
+                            _user!.password == passController.text) {
+                          // navigate to CustomNavigationBar
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CustomNavigationBar(
+                                user: _user,
+                              ),
                             ),
+                            (route) => false,
+                          );
+                        }
+                      } else {
+                        // show snakbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'wrong email or password',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            action:
+                                SnackBarAction(label: 'Ok', onPressed: () {}),
+                            padding: const EdgeInsets.all(10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                           ),
-                          (route) => false,
                         );
                       }
-                    } else {
-                      // show snakbar
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'wrong email or password',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          action: SnackBarAction(label: 'Ok', onPressed: () {}),
-                          padding: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                      );
                     }
                   },
                   child: const Padding(
@@ -201,3 +187,5 @@ class _LoginScreenState extends State<Login> {
     );
   }
 }
+
+

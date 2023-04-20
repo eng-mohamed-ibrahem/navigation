@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
 import 'package:navigation/view/navigation_bar_taps/activity.dart';
@@ -6,32 +7,16 @@ import 'package:navigation/view/navigation_bar_taps/menu.dart';
 
 import '../../model/objects/user.dart';
 
-class CustomNavigationBar extends StatefulWidget {
+class CustomNavigationBar extends ConsumerWidget {
   final User? user;
-  const CustomNavigationBar({super.key, required this.user});
-
-  @override
-  State<CustomNavigationBar> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<CustomNavigationBar> {
-
+   CustomNavigationBar({super.key, required this.user});
   late List<Widget> taps;
-  @override
-  void initState() {
-    taps = [const MyMenu(),const Activity(), NavProfile(user: widget.user)];
-    super.initState();
-  }
-
+    taps = [const MyMenu(), const Activity(), NavProfile(user: widget.user)];
   int tapIndex = 0;
 
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(),
       drawer: const CustomDrawer(),
@@ -40,8 +25,7 @@ class _MyWidgetState extends State<CustomNavigationBar> {
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: "Menu"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.history), label: 'History'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_2_outlined), label: 'Me')
         ],
@@ -55,3 +39,8 @@ class _MyWidgetState extends State<CustomNavigationBar> {
     );
   }
 }
+
+
+
+
+
