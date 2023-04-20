@@ -8,6 +8,7 @@ void main(List<String> args) {
   runApp(
     const ProviderScope(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         supportedLocales: [
           Locale('ar'),
           Locale('en'),

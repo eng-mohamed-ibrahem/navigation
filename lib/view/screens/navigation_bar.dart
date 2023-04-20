@@ -20,7 +20,7 @@ class CustomNavigationBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final int tapIndex = ref.read(tapIndexProvider);
+    final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
     final List<Widget> taps = [
       const MyMenu(),
@@ -35,6 +35,7 @@ class CustomNavigationBar extends HookConsumerWidget {
                 InkWell(
                   onTap: () {
                     // create search bar
+
                   },
                   child: const Icon(Icons.search),
                 ),
@@ -47,7 +48,7 @@ class CustomNavigationBar extends HookConsumerWidget {
                   itemBuilder: (contex) =>
                       const <PopupMenuEntry<SortItemValue>>[
                     PopupMenuItem(
-                      padding: EdgeInsets.only(bottom: 5),
+                      // padding: EdgeInsets.only(bottom: 5),
                       value: SortItemValue.sortByAlpha,
                       child: Icon(FontAwesomeIcons.arrowUpZA),
                     ),

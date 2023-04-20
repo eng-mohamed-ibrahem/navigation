@@ -37,8 +37,8 @@ class SignUp extends HookConsumerWidget {
     final GlobalKey<FormState> globalFormKey =
         useMemoized(() => GlobalKey<FormState>());
 
-    final visibility = ref.read(visibilityProvider);
-    final isLoading = ref.read(isLoadingProvider);
+    final visibility = ref.watch(visibilityProvider);
+    final isLoading = ref.watch(isLoadingProvider);
 
     return Scaffold(
       appBar: AppBar(

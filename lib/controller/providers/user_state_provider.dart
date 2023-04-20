@@ -20,8 +20,8 @@ class _UserState extends StateNotifier<User?> {
   }
 
   /// create method for getting user and set state provider
-  _setUserState() {
-    ref.read(sharedPreferenceProvider).whenData((shared) async {
+  _setUserState() async{
+    ref.watch(sharedPreferenceProvider).whenData((shared) async {
       await Future(() {
         if (!shared.getKeys().contains(Constants.key)) {
           return null;

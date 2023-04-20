@@ -12,7 +12,7 @@ import '../components/customized_edit_form_text.dart';
 class Login extends HookConsumerWidget {
   Login({super.key});
 
-  final AutoDisposeStateProvider visibilityProvider =
+  final AutoDisposeStateProvider<bool> visibilityProvider =
       StateProvider.autoDispose<bool>((ref) => false);
 
   late User? _user;
@@ -25,7 +25,7 @@ class Login extends HookConsumerWidget {
 
     _user = ref.watch(userStateProvider);
 
-    final visibilty = ref.read(visibilityProvider);
+    final visibilty = ref.watch(visibilityProvider);
 
     return Scaffold(
       body: Form(
@@ -67,7 +67,7 @@ class Login extends HookConsumerWidget {
                   suffixIcon: InkWell(
                     onTap: () => ref
                         .watch(visibilityProvider.notifier)
-                        .update((state) => !visibilty),
+                        .update((state) => !state),
                     child: visibilty
                         ? const Icon(Icons.visibility)
                         : const Icon(Icons.visibility_off),

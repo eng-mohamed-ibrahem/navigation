@@ -12,6 +12,35 @@ class MyMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SortItemValue sortType = ref.watch(sortMenuProvider);
+    // final sortedList = ref.watch(listProvider);
+
+    // switch (sortType) {
+    //   case SortItemValue.sortByAlpha:
+    //     {
+    //       sortedList.sort(
+    //         (a, b) {
+    //           return a.compareTo(b);
+    //         },
+    //       );
+    //       break;
+    //     }
+    //   case SortItemValue.sortByPrice:
+    //     {
+    //       sortedList.sort(
+    //         (a, b) {
+    //           return a.price.compareTo(b.price);
+    //         },
+    //       );
+    //     }
+    //     break;
+    //   case SortItemValue.none:
+    //     {
+    //       sortedList = foodItem;  
+    //       break;
+    //       }
+    // }
+
+
 
     return Scaffold(
       body: GridView.builder(
@@ -22,12 +51,13 @@ class MyMenu extends ConsumerWidget {
           maxCrossAxisExtent: 250,
           mainAxisExtent: 320,
         ),
-        itemBuilder: getSortType(sortType),
+        itemBuilder: getSortType(sortType),  
         itemCount: foodItem.length,
       ),
     );
   }
 }
+
 
 Widget? Function(BuildContext, int) getSortType(SortItemValue sortType) {
   switch (sortType) {
@@ -81,14 +111,15 @@ List<FoodItem> sortByPrice() {
   return sortedPriceList;
 }
 
-
+final StateProvider<List<FoodItem>> listProvider =
+    StateProvider<List<FoodItem>>((ref) => foodItem);
 
 // original list
 final List<FoodItem> foodItem = [
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
       name: 'Hamberger',
-      price: 12.3,
+      price: 11.3,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
@@ -100,13 +131,13 @@ final List<FoodItem> foodItem = [
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
       name: 'Shawarma',
-      price: 12.3,
+      price: 4.3,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
       name: 'Chicken',
-      price: 12.3,
+      price: 9.1,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
@@ -124,61 +155,61 @@ final List<FoodItem> foodItem = [
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
       name: 'Hamberger',
+      price: 3.5,
+      rating: 4.2,
+      time: '10-13min'),
+  FoodItem(
+      imageUri: 'assets/images/humberger.jpg',
+      name: 'Lamb',
+      price: 11,
+      rating: 4.2,
+      time: '10-13min'),
+  FoodItem(
+      imageUri: 'assets/images/humberger.jpg',
+      name: 'Beef',
+      price: 15,
+      rating: 4.2,
+      time: '10-13min'),
+  FoodItem(
+      imageUri: 'assets/images/humberger.jpg',
+      name: 'Sage',
       price: 12.3,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Salmon',
+      price: 20.2,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Kipper',
+      price: 33,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Noodles',
+      price: 54,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Spaghetti',
+      price: 1.2,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Rice',
+      price: 27,
       rating: 4.2,
       time: '10-13min'),
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
-      rating: 4.2,
-      time: '10-13min'),
-  FoodItem(
-      imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
-      rating: 4.2,
-      time: '10-13min'),
-  FoodItem(
-      imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
-      rating: 4.2,
-      time: '10-13min'),
-  FoodItem(
-      imageUri: 'assets/images/humberger.jpg',
-      name: 'Hamberger',
-      price: 12.3,
+      name: 'Pizza',
+      price: 0.3,
       rating: 4.2,
       time: '10-13min'),
 ];
