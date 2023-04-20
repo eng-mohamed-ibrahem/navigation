@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../controller/providers/sort_menu_provider.dart';
+import '../../model/utility/constants.dart';
 import '../../model/objects/food_item.dart';
 import '../components/menu_item.dart';
 
-class MyMenu extends StatefulWidget {
+class MyMenu extends ConsumerWidget {
   const MyMenu({super.key});
 
   @override
-  State<MyMenu> createState() => _MyMenuState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SortItemValue sortType = ref.watch(sortMenuProvider);
 
-class _MyMenuState extends State<MyMenu> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: GridView.builder(
         padding: const EdgeInsets.all(10),
@@ -22,17 +22,68 @@ class _MyMenuState extends State<MyMenu> {
           maxCrossAxisExtent: 250,
           mainAxisExtent: 320,
         ),
-        itemBuilder: (context, index) {
-          return MenuItem(
-            foodItem: foodItem[index],
-          );
-        },
+        itemBuilder: getSortType(sortType),
         itemCount: foodItem.length,
       ),
     );
   }
 }
 
+Widget? Function(BuildContext, int) getSortType(SortItemValue sortType) {
+  switch (sortType) {
+    case SortItemValue.sortByAlpha:
+      {
+        var list = sortByName();
+        return (context, index) {
+          return MenuItem(
+            foodItem: list[index],
+          );
+        };
+      }
+
+    case SortItemValue.sortByPrice:
+      {
+        var list = sortByPrice();
+        return (context, index) {
+          return MenuItem(
+            foodItem: list[index],
+          );
+        };
+      }
+    case SortItemValue.none:
+      {
+        return (context, index) {
+          return MenuItem(
+            foodItem: foodItem[index],
+          );
+        };
+      }
+  }
+}
+
+List<FoodItem> sortByName() {
+  List<FoodItem> sortedNameList = foodItem.toList();
+  sortedNameList.sort(
+    (a, b) {
+      return a.compareTo(b);
+    },
+  );
+  return sortedNameList;
+}
+
+List<FoodItem> sortByPrice() {
+  List<FoodItem> sortedPriceList = foodItem.toList();
+  sortedPriceList.sort(
+    (a, b) {
+      return a.price.compareTo(b.price);
+    },
+  );
+  return sortedPriceList;
+}
+
+
+
+// original list
 final List<FoodItem> foodItem = [
   FoodItem(
       imageUri: 'assets/images/humberger.jpg',

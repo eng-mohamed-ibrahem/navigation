@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/view/components/customized_edit_form_text.dart';
 
-import '../../model/utility_method/utility_methods.dart';
+import '../../model/utility/utility_methods.dart';
 
-class ForgetPassword extends StatelessWidget {
+class ForgetPassword extends HookConsumerWidget {
   ForgetPassword({super.key});
 
-  final GlobalKey<FormState> _globalKey =
-      useMemoized(() => GlobalKey<FormState>());
-
-  final TextEditingController phController = useTextEditingController();
 
   CountryCode? _displayCode;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController phController = useTextEditingController();
+  final GlobalKey<FormState> globalKey = useMemoized(() => GlobalKey<FormState>());
+
+
     return Scaffold(
       body: Form(
-        key: _globalKey,
+        key: globalKey,
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
@@ -78,7 +79,7 @@ class ForgetPassword extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_globalKey.currentState!.validate()) {
+                if (globalKey.currentState!.validate()) {
                   // send otp authentication
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

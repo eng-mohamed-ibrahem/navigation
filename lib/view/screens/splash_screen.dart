@@ -9,25 +9,26 @@ class SplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(userStateProvider);
-
-    if (user != null) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CustomNavigationBar(
-              user: user,
+    // final user = ref.read(userStateProvider);
+    Future(() {
+      return ref.read(userStateProvider);
+    }).then((user) {
+      if (user != null) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CustomNavigationBar(),
             ),
-          ),
-          (route) => false);
-    } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ),
-          (route) => false);
-    }
+            (route) => false);
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
+            (route) => false);
+      }
+    });
 
     return Scaffold(
       body: Image.asset(

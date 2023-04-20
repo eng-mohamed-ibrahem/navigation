@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:navigation/controller/shared_preference_controller.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import 'package:navigation/view/screens/forget_password.dart';
 import 'package:navigation/view/screens/signup.dart';
 import '../../controller/providers/user_state_provider.dart';
 import '../../model/objects/user.dart';
-import '../../model/utility_method/utility_methods.dart';
+import '../../model/utility/utility_methods.dart';
 import '../components/customized_edit_form_text.dart';
 
-class Login extends ConsumerWidget {
+class Login extends HookConsumerWidget {
   Login({super.key});
 
-  final visibilityProvider = StateProvider<bool>((ref) => false);
+  final AutoDisposeStateProvider visibilityProvider =
+      StateProvider.autoDispose<bool>((ref) => false);
 
-  final _globalFormKey = useMemoized(() => GlobalKey<FormState>());
-
-  final TextEditingController emailController = useTextEditingController();
-  final TextEditingController passController = useTextEditingController();
-
-  late SharedPrefController sharedPrefController;
   late User? _user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController emailController = useTextEditingController();
+    final TextEditingController passController = useTextEditingController();
+    final globalFormKey = useMemoized(() => GlobalKey<FormState>());
+
     _user = ref.watch(userStateProvider);
 
     final visibilty = ref.read(visibilityProvider);
 
     return Scaffold(
       body: Form(
-        key: _globalFormKey,
+        key: globalFormKey,
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
@@ -86,7 +84,7 @@ class Login extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  ForgetPassword(),
+                          builder: (context) => ForgetPassword(),
                         ),
                       );
                     },
@@ -105,7 +103,7 @@ class Login extends ConsumerWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_globalFormKey.currentState!.validate()) {
+                    if (globalFormKey.currentState!.validate()) {
                       if (_user != null) {
                         if (_user!.email == (emailController.text.trim()) &&
                             _user!.password == passController.text) {
@@ -113,9 +111,7 @@ class Login extends ConsumerWidget {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CustomNavigationBar(
-                                user: _user,
-                              ),
+                              builder: (context) => CustomNavigationBar(),
                             ),
                             (route) => false,
                           );
@@ -157,7 +153,7 @@ class Login extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SignUp(),
+                          builder: (context) => SignUp(),
                         ),
                       );
                     },
@@ -187,5 +183,3 @@ class Login extends ConsumerWidget {
     );
   }
 }
-
-

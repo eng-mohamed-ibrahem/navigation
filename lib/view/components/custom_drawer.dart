@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:navigation/controller/shared_preference_controller.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:navigation/controller/providers/shared_preference_provider.dart';
 import 'package:navigation/view/screens/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends ConsumerWidget {
   const CustomDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -32,22 +32,20 @@ class CustomDrawer extends StatelessWidget {
             //when drawer is opened, flutter adds it to navigation stack(MatrialPageRoute)
             onTap: () {
               Navigator.pop(context);
-              // navigate to screen
+              // navigate to settings screen
             },
           ),
           ListTile(
               leading: const Icon(Icons.logout_outlined),
               title: const Text('Logout'),
               onTap: () {
-                // Navigator.pop(context);
-
                 showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        actionsAlignment: MainAxisAlignment.spaceAround,
+                        // actionsAlignment: MainAxisAlignment.spaceAround,
                         actionsPadding:
-                            const EdgeInsets.only(bottom: 5, top: 5),
+                            const EdgeInsets.only(bottom: 10, top: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -60,18 +58,16 @@ class CustomDrawer extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () async {
                               // clear cach data
-                              await SharedPrefController(
-                                      pref:
-                                          await SharedPreferences.getInstance())
-                                  .clearData()
-                                  .whenComplete(() {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Login(),
-                                    ),
-                                    (route) => false);
-                              });
+                              ref.read(sharedPreferenceProvider).whenData(
+                                  (shared) async => await shared
+                                      .clear()
+                                      .whenComplete(
+                                          () => Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => Login(),
+                                              ),
+                                              (route) => false)));
                             },
                             child: const Text('OK'),
                           ),

@@ -1,60 +1,51 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:navigation/controller/providers/shared_preference_provider.dart';
+import 'package:navigation/model/utility/constants.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/objects/user.dart';
 import '../components/customized_edit_form_text.dart';
-import '../../model/utility_method/utility_methods.dart';
+import '../../model/utility/utility_methods.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignUp extends HookConsumerWidget {
+  SignUp({super.key});
 
-  @override
-  State<SignUp> createState() => _SignUptState();
-}
+  final AutoDisposeStateProvider<bool> visibilityProvider =
+      StateProvider.autoDispose<bool>(
+    (ref) => false,
+  );
 
-class _SignUptState extends State<SignUp> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-  final TextEditingController rePassController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController storyController = TextEditingController();
-  final TextEditingController salaryController = TextEditingController();
-  final _globalFormKey = GlobalKey<FormState>();
-  bool visibility = false;
-  bool _isLoading = false;
-  late SharedPreferences _preferences;
+  final AutoDisposeStateProvider<bool> isLoadingProvider =
+      StateProvider.autoDispose<bool>(
+    (ref) => false,
+  );
+
   late User? _user;
 
   @override
-  void didChangeDependencies() async {
-    _preferences = await SharedPreferences.getInstance();
-    super.didChangeDependencies();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
 
-  @override
-  void dispose() {
-    nameController.dispose();
-    phController.dispose();
-    emailController.dispose();
-    passController.dispose();
-    rePassController.dispose();
-    storyController.dispose();
-    salaryController.dispose();
-    super.dispose();
-  }
+    final TextEditingController nameController = useTextEditingController();
+    final TextEditingController phController = useTextEditingController();
+    final TextEditingController passController = useTextEditingController();
+    final TextEditingController rePassController = useTextEditingController();
+    final TextEditingController emailController = useTextEditingController();
+    final TextEditingController storyController = useTextEditingController();
+    final TextEditingController salaryController = useTextEditingController();
+    final GlobalKey<FormState> globalFormKey =
+        useMemoized(() => GlobalKey<FormState>());
 
-  @override
-  Widget build(BuildContext context) {
+    final visibility = ref.read(visibilityProvider);
+    final isLoading = ref.read(isLoadingProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign up'),
       ),
       body: Form(
-        key: _globalFormKey,
+        key: globalFormKey,
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
           child: Column(
@@ -127,9 +118,11 @@ class _SignUptState extends State<SignUp> {
                 maxLines: 1,
                 keyboardType: TextInputType.text,
                 suffixIcon: InkWell(
-                  onTap: () => setState(() {
-                    visibility = !visibility;
-                  }),
+                  onTap: () {
+                    ref
+                        .watch(visibilityProvider.notifier)
+                        .update((state) => !visibility);
+                  },
                   child: visibility
                       ? const Icon(Icons.visibility)
                       : const Icon(Icons.visibility_off),
@@ -149,9 +142,11 @@ class _SignUptState extends State<SignUp> {
                 maxLines: 1,
                 keyboardType: TextInputType.text,
                 suffixIcon: InkWell(
-                  onTap: () => setState(() {
-                    visibility = !visibility;
-                  }),
+                  onTap: () {
+                    ref
+                        .watch(visibilityProvider.notifier)
+                        .update((state) => !visibility);
+                  },
                   child: visibility
                       ? const Icon(Icons.visibility)
                       : const Icon(Icons.visibility_off),
@@ -162,14 +157,14 @@ class _SignUptState extends State<SignUp> {
                 height: 30,
               ),
               ElevatedButton(
-                onPressed: _isLoading
+                onPressed: isLoading
                     ? null
                     : () async {
                         // check if every filed has evilated its conditions
-                        if (_globalFormKey.currentState!.validate()) {
-                          setState(() {
-                            _isLoading = true;
-                          });
+                        if (globalFormKey.currentState!.validate()) {
+                          ref
+                              .watch(isLoadingProvider.notifier)
+                              .update((state) => !isLoading);
                           _user = User(
                             name: nameController.text.trim(),
                             phone: phController.text,
@@ -178,29 +173,35 @@ class _SignUptState extends State<SignUp> {
                             password: passController.text,
                             lifeStory: storyController.text.trim(),
                           );
-                          _preferences // await
-                              .setString('user', _user!.toJson())
-                              .then((value) {
-                            if (value) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomNavigationBar(user: _user),
-                                ),
-                                (route) => false,
+
+                          ref.read(sharedPreferenceProvider).whenData(
+                            (shared) async {
+                              shared
+                                  .setString(Constants.key, _user!.toJson())
+                                  .then(
+                                (value) {
+                                  if (value) {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CustomNavigationBar(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  } else {
+                                    ref.read(sharedPreferenceProvider).whenData(
+                                          (shared) =>
+                                              shared.remove(Constants.key),
+                                        );
+                                  }
+                                },
                               );
-                            } else {
-                              // there is a problem in sign up
-                              setState(() async {
-                                await _preferences.clear();
-                              });
-                              log('------------- There is problem her --------');
-                            }
-                          });
+                            },
+                          );
                         }
                       },
-                child: _isLoading
+                child: isLoading
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       )
