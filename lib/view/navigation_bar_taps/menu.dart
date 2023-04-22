@@ -11,36 +11,32 @@ class MyMenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SortItemValue sortType = ref.watch(sortMenuProvider);
-    // final sortedList = ref.watch(listProvider);
-
-    // switch (sortType) {
-    //   case SortItemValue.sortByAlpha:
-    //     {
-    //       sortedList.sort(
-    //         (a, b) {
-    //           return a.compareTo(b);
-    //         },
-    //       );
-    //       break;
-    //     }
-    //   case SortItemValue.sortByPrice:
-    //     {
-    //       sortedList.sort(
-    //         (a, b) {
-    //           return a.price.compareTo(b.price);
-    //         },
-    //       );
-    //     }
-    //     break;
-    //   case SortItemValue.none:
-    //     {
-    //       sortedList = foodItem;  
-    //       break;
-    //       }
-    // }
-
-
+    final SortItemType sortType = ref.watch(sortMenuProvider);
+    final sortedList = ref.watch(listProvider);
+    switch (sortType) {
+      case SortItemType.sortByAlpha:
+        {
+          sortedList.sort(
+            (a, b) {
+              return a.compareTo(b);
+            },
+          );
+          break;
+        }
+      case SortItemType.sortByPrice:
+        {
+          sortedList.sort(
+            (a, b) {
+              return a.price.compareTo(b.price);
+            },
+          );
+        }
+        break;
+      case SortItemType.none:
+        {
+          break;
+        }
+    }
 
     return Scaffold(
       body: GridView.builder(
@@ -51,17 +47,20 @@ class MyMenu extends ConsumerWidget {
           maxCrossAxisExtent: 250,
           mainAxisExtent: 320,
         ),
-        itemBuilder: getSortType(sortType),  
-        itemCount: foodItem.length,
+        itemBuilder: (context, index) {
+          return MenuItem(
+            foodItem: sortedList[index],
+          );
+        },
+        itemCount: ref.watch(listProvider).length,
       ),
     );
   }
 }
 
-
-Widget? Function(BuildContext, int) getSortType(SortItemValue sortType) {
+Widget? Function(BuildContext, int) getSortType(SortItemType sortType) {
   switch (sortType) {
-    case SortItemValue.sortByAlpha:
+    case SortItemType.sortByAlpha:
       {
         var list = sortByName();
         return (context, index) {
@@ -71,7 +70,7 @@ Widget? Function(BuildContext, int) getSortType(SortItemValue sortType) {
         };
       }
 
-    case SortItemValue.sortByPrice:
+    case SortItemType.sortByPrice:
       {
         var list = sortByPrice();
         return (context, index) {
@@ -80,7 +79,7 @@ Widget? Function(BuildContext, int) getSortType(SortItemValue sortType) {
           );
         };
       }
-    case SortItemValue.none:
+    case SortItemType.none:
       {
         return (context, index) {
           return MenuItem(

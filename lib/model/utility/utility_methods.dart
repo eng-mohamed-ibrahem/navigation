@@ -1,4 +1,6 @@
 // argument: email is empty String if no input is entered
+import '../objects/food_item.dart';
+
 String? emailValidated(String? email) {
   if (email!.isEmpty) {
     return 'Email cannot be left blank';
@@ -33,7 +35,13 @@ String? phoneValidated(String? phone) {
   return null;
 }
 
-String? Function(String?)? example() {
-//
-return null;
+// search method
+List<FoodItem> search({required List<FoodItem> items, required String input}) {
+  return items
+      .where(
+        (element) => (element.name.toLowerCase()).contains(
+          input.toLowerCase(),
+        ),
+      )
+      .toList();
 }

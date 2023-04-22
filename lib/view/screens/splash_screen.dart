@@ -8,10 +8,10 @@ class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref)  {
+  Widget build(BuildContext context, WidgetRef ref) {
     // final user = ref.read(userStateProvider);
-    Future(() {
-        ref.watch(userStateProvider);
+    Future(() async {
+        return ref.watch(userStateProvider);
     }).then((user) {
       if (user != null) {
         Navigator.pushAndRemoveUntil(

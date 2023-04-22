@@ -3,6 +3,6 @@ import '../../model/utility/constants.dart';
 
 final sortMenuProvider = StateProvider(
   (ref) {
-    return SortItemValue.sortByAlpha;
+    return SortItemType.none;
   },
 );

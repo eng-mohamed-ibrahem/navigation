@@ -44,8 +44,7 @@ class CustomDrawer extends ConsumerWidget {
                     builder: (context) {
                       return AlertDialog(
                         // actionsAlignment: MainAxisAlignment.spaceAround,
-                        actionsPadding:
-                            const EdgeInsets.only(bottom: 10, top: 10),
+                        actionsPadding: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -58,16 +57,18 @@ class CustomDrawer extends ConsumerWidget {
                           ElevatedButton(
                             onPressed: () async {
                               // clear cach data
-                              ref.read(sharedPreferenceProvider).whenData(
-                                  (shared) async => await shared
-                                      .clear()
-                                      .whenComplete(
+                              ref.watch(sharedPreferenceProvider.future).then(
+                                    (shared) async => await shared
+                                        .clear()
+                                        .whenComplete(
                                           () => Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => Login(),
                                               ),
-                                              (route) => false)));
+                                              (route) => false),
+                                        ),
+                                  );
                             },
                             child: const Text('OK'),
                           ),

@@ -27,7 +27,6 @@ class FoodItem extends Comparable<FoodItem> {
     }
   }
 
-
   int sortByName(String otherName) {
     List<int> codeUnits = otherName.codeUnits;
     for (var i = 0; i < otherName.length && i < name.length; i++) {

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:navigation/controller/providers/shared_preference_provider.dart';
-import 'package:navigation/model/utility/constants.dart';
+import 'package:navigation/controller/providers/user_state_provider.dart';
 import 'package:navigation/view/screens/navigation_bar.dart';
 import '../../model/objects/user.dart';
 import '../components/customized_edit_form_text.dart';
@@ -26,7 +25,6 @@ class SignUp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final TextEditingController nameController = useTextEditingController();
     final TextEditingController phController = useTextEditingController();
     final TextEditingController passController = useTextEditingController();
@@ -174,31 +172,49 @@ class SignUp extends HookConsumerWidget {
                             lifeStory: storyController.text.trim(),
                           );
 
-                          ref.read(sharedPreferenceProvider).whenData(
-                            (shared) async {
-                              shared
-                                  .setString(Constants.key, _user!.toJson())
-                                  .then(
-                                (value) {
-                                  if (value) {
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            CustomNavigationBar(),
-                                      ),
-                                      (route) => false,
-                                    );
-                                  } else {
-                                    ref.read(sharedPreferenceProvider).whenData(
-                                          (shared) =>
-                                              shared.remove(Constants.key),
-                                        );
-                                  }
-                                },
+                          Future(
+                            () {
+                              ref
+                                  .watch(userStateProvider.notifier)
+                                  .updateUserState(_user!);
+                            },
+                          ).whenComplete(
+                            () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomNavigationBar(),
+                                ),
+                                (route) => false,
                               );
                             },
                           );
+
+                          // ref.watch(sharedPreferenceProvider).whenData(
+                          //   (shared) async {
+                          //     shared
+                          //         .setString(Constants.key, _user!.toJson())
+                          //         .then(
+                          //       (value) {
+                          //         if (value) {
+                          //           Navigator.pushAndRemoveUntil(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //               builder: (context) =>
+                          //                   CustomNavigationBar(),
+                          //             ),
+                          //             (route) => false,
+                          //           );
+                          //         } else {
+                          //           ref.read(sharedPreferenceProvider).whenData(
+                          //                 (shared) =>
+                          //                     shared.remove(Constants.key),
+                          //               );
+                          //         }
+                          //       },
+                          //     );
+                          //   },
+                          // );
                         }
                       },
                 child: isLoading

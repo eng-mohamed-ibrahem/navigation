@@ -29,7 +29,7 @@ class User {
   }
 
   factory User.fromJson({required String jsonUser}) {
-    dynamic user = jsonDecode(jsonUser);
+    Map<String, dynamic> user = jsonDecode(jsonUser);
 
     
     return User(

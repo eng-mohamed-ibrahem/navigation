@@ -15,14 +15,18 @@ class _UserState extends StateNotifier<User?> {
   }
 
   /// update user stateprovider
-  void updateUserState(User user) {
-    state = user;
+  void updateUserState(User user) async {
+    await ref.watch(sharedPreferenceProvider.future).then((shared) async {
+      await shared.setString(Constants.key, user.toJson()).whenComplete(() {
+        state = user;
+      });
+    });
   }
 
   /// create method for getting user and set state provider
-  _setUserState() async{
-    ref.watch(sharedPreferenceProvider).whenData((shared) async {
-      await Future(() {
+  _setUserState() async {
+    await ref.watch(sharedPreferenceProvider.future).then((shared) async {
+      await Future(() async {
         if (!shared.getKeys().contains(Constants.key)) {
           return null;
         } else {

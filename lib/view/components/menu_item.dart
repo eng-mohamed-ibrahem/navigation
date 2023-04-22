@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/model/objects/food_item.dart';
 
-class MenuItem extends StatefulWidget {
+class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
-  const MenuItem({super.key, required this.foodItem});
+  MenuItem({super.key, required this.foodItem});
+
+  final StateProvider<bool> isLikedProvider = StateProvider<bool>(
+    (ref) => false,
+  );
 
   @override
-  State<StatefulWidget> createState() => _MenuItemState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isLiked =
+        ref.watch(isLikedProvider.notifier).update((state) => foodItem.isLiked);
 
-class _MenuItemState extends State<MenuItem> {
-  @override
-  Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -36,12 +39,10 @@ class _MenuItemState extends State<MenuItem> {
                   ],
                   child: InkWell(
                     onDoubleTap: () {
-                      setState(() {
-                        widget.foodItem.isLiked = !widget.foodItem.isLiked;
-                      });
+                      foodItem.isLiked = !isLiked;
                     },
                     child: Image.asset(
-                      widget.foodItem.imageUri,
+                      foodItem.imageUri,
                       width: 250,
                       height: 200,
                       fit: BoxFit.cover,
@@ -53,15 +54,13 @@ class _MenuItemState extends State<MenuItem> {
                     top: 10,
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          widget.foodItem.isLiked = !widget.foodItem.isLiked;
-                        });
+                        foodItem.isLiked = !isLiked;
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
                         child: FaIcon(
                           FontAwesomeIcons.solidHeart,
-                          color: widget.foodItem.isLiked
+                          color: foodItem.isLiked
                               ? Colors.red
                               : const Color.fromRGBO(173, 173, 173, 1),
                         ),
@@ -72,11 +71,11 @@ class _MenuItemState extends State<MenuItem> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(widget.foodItem.name),
+            child: Text(foodItem.name),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(' \$${widget.foodItem.price}'),
+            child: Text(' \$${foodItem.price}'),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -94,7 +93,7 @@ class _MenuItemState extends State<MenuItem> {
                   child: Row(
                     children: [
                       Text(
-                        widget.foodItem.rating.toString(),
+                        foodItem.rating.toString(),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -113,7 +112,7 @@ class _MenuItemState extends State<MenuItem> {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(widget.foodItem.time),
+                Text(foodItem.time),
               ],
             ),
           ),

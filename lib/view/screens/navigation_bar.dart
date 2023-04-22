@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/controller/providers/sort_menu_provider.dart';
+import 'package:navigation/model/utility/utility_methods.dart';
 import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
 import 'package:navigation/view/navigation_bar_taps/activity.dart';
@@ -17,11 +19,20 @@ class CustomNavigationBar extends HookConsumerWidget {
       StateProvider.autoDispose<int>(
     (ref) => 0,
   );
-
+  final AutoDisposeStateProvider<bool> isEditingProvider =
+      AutoDisposeStateProvider<bool>(
+    (ref) => false,
+  );
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
+    final isEditing = ref.watch(isEditingProvider);
+
+    final TextEditingController searchController = useTextEditingController();
+
+    debugPrint('-$user-');
+
     final List<Widget> taps = [
       const MyMenu(),
       const Activity(),
@@ -30,60 +41,92 @@ class CustomNavigationBar extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title: tapIndex == 0
+            ? TextFormField(
+                controller: searchController,
+                onChanged: (value) {
+                  ref
+                      .watch(isEditingProvider.notifier)
+                      .update((state) => value.isEmpty ? false : true);
+
+                  ref.watch(listProvider.notifier).update(
+                        (state) => search(items: foodItem, input: value),
+                      );
+                },
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white)),
+                  hintText: 'search',
+                  suffixIcon: isEditing
+                      ? InkWell(
+                          onTap: () {
+                            searchController.clear();
+                            ref
+                                .watch(listProvider.notifier)
+                                .update((state) => foodItem);
+                          },
+                          child: const Icon(
+                            Icons.cancel_outlined,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null,
+                ),
+              )
+            : null,
         actions: tapIndex == 0
             ? [
-                InkWell(
-                  onTap: () {
-                    // create search bar
-
-                  },
-                  child: const Icon(Icons.search),
-                ),
                 PopupMenuButton(
                   icon: const Icon(Icons.sort_rounded),
                   padding: const EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  itemBuilder: (contex) =>
-                      const <PopupMenuEntry<SortItemValue>>[
+                  itemBuilder: (contex) => const <PopupMenuEntry<SortItemType>>[
                     PopupMenuItem(
                       // padding: EdgeInsets.only(bottom: 5),
-                      value: SortItemValue.sortByAlpha,
-                      child: Icon(FontAwesomeIcons.arrowUpZA),
+                      value: SortItemType.sortByAlpha,
+                      child: FaIcon(
+                        FontAwesomeIcons.arrowUpZA,
+                        color: Colors.black,
+                      ),
                     ),
                     PopupMenuItem(
-                      value: SortItemValue.sortByPrice,
-                      child: Icon(FontAwesomeIcons.arrowUp91),
+                      value: SortItemType.sortByPrice,
+                      child: FaIcon(
+                        FontAwesomeIcons.arrowUp91,
+                        color: Colors.black,
+                      ),
                     ),
-                    PopupMenuItem(
-                      value: SortItemValue.none,
-                      child: Icon(FontAwesomeIcons.filterCircleXmark),
-                    ),
+                    // PopupMenuItem(
+                    //   value: SortItemType.none,
+                    //   child: FaIcon(FontAwesomeIcons.filterCircleXmark),
+                    // ),
                   ],
                   onSelected: (item) {
                     // update sortion only, not rebuild now
                     switch (item) {
-                      case SortItemValue.sortByAlpha:
+                      case SortItemType.sortByAlpha:
                         {
                           ref
-                              .read(sortMenuProvider.notifier)
-                              .update((state) => SortItemValue.sortByAlpha);
+                              .watch(sortMenuProvider.notifier)
+                              .update((state) => SortItemType.sortByAlpha);
                           break;
                         }
 
-                      case SortItemValue.sortByPrice:
+                      case SortItemType.sortByPrice:
                         {
                           ref
-                              .read(sortMenuProvider.notifier)
-                              .update((state) => SortItemValue.sortByPrice);
+                              .watch(sortMenuProvider.notifier)
+                              .update((state) => SortItemType.sortByPrice);
                           break;
                         }
-                      case SortItemValue.none:
+                      case SortItemType.none:
                         {
-                          ref
-                              .read(sortMenuProvider.notifier)
-                              .update((state) => SortItemValue.none);
+                          // ref
+                          //     .read(sortMenuProvider.notifier)
+                          //     .update((state) => SortItemType.none);
                           break;
                         }
                     }
