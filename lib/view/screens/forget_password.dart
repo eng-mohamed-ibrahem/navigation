@@ -10,16 +10,21 @@ import '../../model/utility/utility_methods.dart';
 class ForgetPassword extends HookConsumerWidget {
   ForgetPassword({super.key});
 
-
   CountryCode? _displayCode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController phController = useTextEditingController();
-  final GlobalKey<FormState> globalKey = useMemoized(() => GlobalKey<FormState>());
-
+    final GlobalKey<FormState> globalKey =
+        useMemoized(() => GlobalKey<FormState>());
 
     return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back_outlined),
+        ),
+      ),
       body: Form(
         key: globalKey,
         child: ListView(

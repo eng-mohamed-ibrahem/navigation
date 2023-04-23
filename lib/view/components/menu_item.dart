@@ -4,11 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/model/objects/food_item.dart';
 
+import '../../controller/providers/favorites_food_provider.dart';
+
 class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
   MenuItem({super.key, required this.foodItem});
 
-  final AutoDisposeStateProvider<bool> isLikedProvider = StateProvider.autoDispose<bool>(
+  final AutoDisposeStateProvider<bool> isLikedProvider =
+      StateProvider.autoDispose<bool>(
     (ref) => false,
   );
 
@@ -39,6 +42,13 @@ class MenuItem extends ConsumerWidget {
                   child: InkWell(
                     onDoubleTap: () {
                       foodItem.isLiked = !isLiked;
+                      isLiked
+                          ? ref
+                              .watch(favortiesFoodProvider.notifier)
+                              .addFavortieItem(foodItem)
+                          : ref
+                              .watch(favortiesFoodProvider.notifier)
+                              .removeFavoriteItem(foodItem);
                       ref
                           .watch(isLikedProvider.notifier)
                           .update((state) => !isLiked);
@@ -57,6 +67,13 @@ class MenuItem extends ConsumerWidget {
                     child: InkWell(
                       onTap: () {
                         foodItem.isLiked = !isLiked;
+                        isLiked
+                            ? ref
+                                .watch(favortiesFoodProvider.notifier)
+                                .addFavortieItem(foodItem)
+                            : ref
+                                .watch(favortiesFoodProvider.notifier)
+                                .removeFavoriteItem(foodItem);
                         ref
                             .watch(isLikedProvider.notifier)
                             .update((state) => !isLiked);

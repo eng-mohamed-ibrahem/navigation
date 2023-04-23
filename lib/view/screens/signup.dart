@@ -40,6 +40,10 @@ class SignUp extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back_outlined),
+        ),
         title: const Text('Sign up'),
       ),
       body: Form(

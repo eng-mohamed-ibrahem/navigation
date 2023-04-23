@@ -12,6 +12,7 @@ import '../../controller/providers/food_items_provider.dart';
 import '../../controller/providers/user_state_provider.dart';
 import '../../model/utility/constants.dart';
 import '../../model/objects/user.dart';
+import '../navigation_bar_taps/favorite_foods.dart';
 
 class CustomNavigationBar extends HookConsumerWidget {
   CustomNavigationBar({super.key});
@@ -39,6 +40,7 @@ class CustomNavigationBar extends HookConsumerWidget {
     final List<Widget> taps = [
       const MyMenu(),
       const Activity(),
+      const FavoriteFood(),
       NavProfile(user: user)
     ];
 
