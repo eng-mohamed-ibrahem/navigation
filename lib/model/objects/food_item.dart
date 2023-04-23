@@ -1,5 +1,3 @@
-
-
 class FoodItem extends Comparable<FoodItem> {
   bool isLiked;
   final String name;

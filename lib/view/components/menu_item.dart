@@ -14,8 +14,7 @@ class MenuItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isLiked =
-        ref.watch(isLikedProvider.notifier).update((state) => foodItem.isLiked);
+    final bool isLiked = ref.read(isLikedProvider);
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -40,6 +39,9 @@ class MenuItem extends ConsumerWidget {
                   child: InkWell(
                     onDoubleTap: () {
                       foodItem.isLiked = !isLiked;
+                      ref
+                          .watch(isLikedProvider.notifier)
+                          .update((state) => !isLiked);
                     },
                     child: Image.asset(
                       foodItem.imageUri,
@@ -55,6 +57,9 @@ class MenuItem extends ConsumerWidget {
                     child: InkWell(
                       onTap: () {
                         foodItem.isLiked = !isLiked;
+                        ref
+                            .watch(isLikedProvider.notifier)
+                            .update((state) => !isLiked);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.white,

@@ -189,32 +189,6 @@ class SignUp extends HookConsumerWidget {
                               );
                             },
                           );
-
-                          // ref.watch(sharedPreferenceProvider).whenData(
-                          //   (shared) async {
-                          //     shared
-                          //         .setString(Constants.key, _user!.toJson())
-                          //         .then(
-                          //       (value) {
-                          //         if (value) {
-                          //           Navigator.pushAndRemoveUntil(
-                          //             context,
-                          //             MaterialPageRoute(
-                          //               builder: (context) =>
-                          //                   CustomNavigationBar(),
-                          //             ),
-                          //             (route) => false,
-                          //           );
-                          //         } else {
-                          //           ref.read(sharedPreferenceProvider).whenData(
-                          //                 (shared) =>
-                          //                     shared.remove(Constants.key),
-                          //               );
-                          //         }
-                          //       },
-                          //     );
-                          //   },
-                          // );
                         }
                       },
                 child: isLoading

@@ -27,7 +27,7 @@ class CustomNavigationBar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
-    final isEditing = ref.watch(isEditingProvider);
+    final bool isEditing = ref.watch(isEditingProvider);
 
     final TextEditingController searchController = useTextEditingController();
 
@@ -43,6 +43,9 @@ class CustomNavigationBar extends HookConsumerWidget {
       appBar: AppBar(
         title: tapIndex == 0
             ? TextFormField(
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
                 controller: searchController,
                 onChanged: (value) {
                   ref

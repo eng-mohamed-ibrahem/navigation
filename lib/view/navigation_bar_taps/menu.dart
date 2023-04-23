@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../controller/providers/sort_menu_provider.dart';
@@ -48,8 +49,14 @@ class MyMenu extends ConsumerWidget {
           mainAxisExtent: 320,
         ),
         itemBuilder: (context, index) {
-          return MenuItem(
-            foodItem: sortedList[index],
+          return Animate(
+            effects: const [
+              FadeEffect(duration: Duration(milliseconds: 500)),
+              SlideEffect(duration: Duration(milliseconds: 400)),
+            ],
+            child: MenuItem(
+              foodItem: sortedList[index],
+            ),
           );
         },
         itemCount: ref.watch(listProvider).length,
