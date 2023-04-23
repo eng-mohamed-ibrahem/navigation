@@ -13,6 +13,7 @@ class _UserState extends StateNotifier<User?> {
   _UserState(this.ref) : super(null) {
     _setUserState();
   }
+  
 
   /// update user stateprovider
   void updateUserState(User user) async {

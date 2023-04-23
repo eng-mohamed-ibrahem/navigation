@@ -8,13 +8,13 @@ class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
   MenuItem({super.key, required this.foodItem});
 
-  final StateProvider<bool> isLikedProvider = StateProvider<bool>(
+  final AutoDisposeStateProvider<bool> isLikedProvider = StateProvider.autoDispose<bool>(
     (ref) => false,
   );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isLiked = ref.read(isLikedProvider);
+    final bool isLiked = ref.watch(isLikedProvider);
 
     return Card(
       clipBehavior: Clip.antiAlias,

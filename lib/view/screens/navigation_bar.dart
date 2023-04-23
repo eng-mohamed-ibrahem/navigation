@@ -8,6 +8,7 @@ import 'package:navigation/view/components/custom_drawer.dart';
 import 'package:navigation/view/navigation_bar_taps/navigation_profile_tap.dart';
 import 'package:navigation/view/navigation_bar_taps/activity.dart';
 import 'package:navigation/view/navigation_bar_taps/menu.dart';
+import '../../controller/providers/food_items_provider.dart';
 import '../../controller/providers/user_state_provider.dart';
 import '../../model/utility/constants.dart';
 import '../../model/objects/user.dart';
@@ -23,11 +24,13 @@ class CustomNavigationBar extends HookConsumerWidget {
       AutoDisposeStateProvider<bool>(
     (ref) => false,
   );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
     final bool isEditing = ref.watch(isEditingProvider);
+    ref.watch(listProvider);
 
     final TextEditingController searchController = useTextEditingController();
 
@@ -53,7 +56,7 @@ class CustomNavigationBar extends HookConsumerWidget {
                       .update((state) => value.isEmpty ? false : true);
 
                   ref.watch(listProvider.notifier).update(
-                        (state) => search(items: foodItem, input: value),
+                        newState: search(items: foodItem, input: value),
                       );
                 },
                 cursorColor: Colors.white,
@@ -67,7 +70,7 @@ class CustomNavigationBar extends HookConsumerWidget {
                             searchController.clear();
                             ref
                                 .watch(listProvider.notifier)
-                                .update((state) => foodItem);
+                                .update(newState: foodItem);
                           },
                           child: const Icon(
                             Icons.cancel_outlined,
@@ -88,7 +91,6 @@ class CustomNavigationBar extends HookConsumerWidget {
                   ),
                   itemBuilder: (contex) => const <PopupMenuEntry<SortItemType>>[
                     PopupMenuItem(
-                      // padding: EdgeInsets.only(bottom: 5),
                       value: SortItemType.sortByAlpha,
                       child: FaIcon(
                         FontAwesomeIcons.arrowUpZA,
@@ -98,14 +100,10 @@ class CustomNavigationBar extends HookConsumerWidget {
                     PopupMenuItem(
                       value: SortItemType.sortByPrice,
                       child: FaIcon(
-                        FontAwesomeIcons.arrowUp91,
+                        FontAwesomeIcons.arrowUp19,
                         color: Colors.black,
                       ),
                     ),
-                    // PopupMenuItem(
-                    //   value: SortItemType.none,
-                    //   child: FaIcon(FontAwesomeIcons.filterCircleXmark),
-                    // ),
                   ],
                   onSelected: (item) {
                     // update sortion only, not rebuild now
@@ -128,7 +126,7 @@ class CustomNavigationBar extends HookConsumerWidget {
                       case SortItemType.none:
                         {
                           // ref
-                          //     .read(sortMenuProvider.notifier)
+                          //     .watch(sortMenuProvider.notifier)
                           //     .update((state) => SortItemType.none);
                           break;
                         }
