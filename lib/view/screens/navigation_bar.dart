@@ -31,7 +31,7 @@ class CustomNavigationBar extends HookConsumerWidget {
     final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
     final bool isEditing = ref.watch(isEditingProvider);
-    ref.watch(listProvider);
+    // ref.watch(listProvider);
 
     final TextEditingController searchController = useTextEditingController();
 
@@ -70,6 +70,9 @@ class CustomNavigationBar extends HookConsumerWidget {
                       ? InkWell(
                           onTap: () {
                             searchController.clear();
+                            ref
+                                .watch(isEditingProvider.notifier)
+                                .update((state) => false);
                             ref
                                 .watch(listProvider.notifier)
                                 .update(newState: foodItem);
@@ -141,10 +144,15 @@ class CustomNavigationBar extends HookConsumerWidget {
       drawer: const CustomDrawer(),
       body: taps[tapIndex],
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.black,
+        unselectedItemColor: Colors.black,
+        type: BottomNavigationBarType.shifting,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: "Menu"),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_outlined), label: 'Favorites'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_2_outlined), label: 'Me')
         ],

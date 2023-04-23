@@ -10,12 +10,12 @@ class FavoriteFood extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<FoodItem> list = ref.watch(favortiesFoodProvider);
-
+    final Set<FoodItem> list = ref.watch(favortiesFoodProvider);
+    
     return ListView.builder(
       padding: const EdgeInsets.all(10),
       itemBuilder: (context, index) {
-        return MenuItem(foodItem: list[index]);
+        return MenuItem(foodItem: list.elementAt(index));
       },
       itemCount: list.length,
     );

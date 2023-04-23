@@ -26,7 +26,6 @@ class MyMenu extends ConsumerWidget {
         }
       case SortItemType.none:
         {
-          ref.watch(listProvider.notifier).update(newState: foodItem);
           break;
         }
     }

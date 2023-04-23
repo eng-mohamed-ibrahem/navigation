@@ -10,8 +10,8 @@ class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
   MenuItem({super.key, required this.foodItem});
 
-  final AutoDisposeStateProvider<bool> isLikedProvider =
-      StateProvider.autoDispose<bool>(
+  final StateProvider<bool> isLikedProvider =
+      StateProvider<bool>(
     (ref) => false,
   );
 
@@ -42,7 +42,7 @@ class MenuItem extends ConsumerWidget {
                   child: InkWell(
                     onDoubleTap: () {
                       foodItem.isLiked = !isLiked;
-                      isLiked
+                      !isLiked
                           ? ref
                               .watch(favortiesFoodProvider.notifier)
                               .addFavortieItem(foodItem)
@@ -67,7 +67,7 @@ class MenuItem extends ConsumerWidget {
                     child: InkWell(
                       onTap: () {
                         foodItem.isLiked = !isLiked;
-                        isLiked
+                        !isLiked
                             ? ref
                                 .watch(favortiesFoodProvider.notifier)
                                 .addFavortieItem(foodItem)
