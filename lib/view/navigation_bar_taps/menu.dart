@@ -40,14 +40,8 @@ class MyMenu extends ConsumerWidget {
           mainAxisExtent: 320,
         ),
         itemBuilder: (context, index) {
-          return Animate(
-            effects: const [
-              FadeEffect(duration: Duration(milliseconds: 500)),
-              SlideEffect(duration: Duration(milliseconds: 400)),
-            ],
-            child: MenuItem(
-              foodItem: ref.watch(listProvider)[index],
-            ),
+          return MenuItem(
+            foodItem: ref.watch(listProvider)[index],
           );
         },
         itemCount: ref.watch(listProvider).length,

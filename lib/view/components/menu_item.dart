@@ -10,8 +10,7 @@ class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
   MenuItem({super.key, required this.foodItem});
 
-  final StateProvider<bool> isLikedProvider =
-      StateProvider<bool>(
+  final StateProvider<bool> isLikedProvider = StateProvider<bool>(
     (ref) => false,
   );
 
@@ -93,7 +92,8 @@ class MenuItem extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(foodItem.name),
+            child: Text(foodItem.name,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
