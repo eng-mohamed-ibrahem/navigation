@@ -104,24 +104,26 @@ class Login extends HookConsumerWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (globalFormKey.currentState!.validate()) {
-                      if (_user != null) {
-                        if (_user!.email == (emailController.text.trim()) &&
-                            _user!.password == passController.text) {
-                          // navigate to CustomNavigationBar
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CustomNavigationBar(),
-                            ),
-                            (route) => false,
-                          );
-                        }
+                      if (_user != null &&
+                          _user!.email == (emailController.text.trim()) &&
+                          _user!.password == passController.text) {
+                        ref
+                            .watch(userStateProvider.notifier)
+                            .updateOnly(isLoggedin: true);
+                        // navigate to CustomNavigationBar
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CustomNavigationBar(),
+                          ),
+                          (route) => false,
+                        );
                       } else {
                         // show snakbar
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: const Text(
-                              'wrong email or password',
+                              'Email or password is invalid',
                               style: TextStyle(color: Colors.white),
                             ),
                             action:

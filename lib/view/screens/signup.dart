@@ -167,6 +167,7 @@ class SignUp extends HookConsumerWidget {
                           ref
                               .watch(isLoadingProvider.notifier)
                               .update((state) => !isLoading);
+                              
                           _user = User(
                             name: nameController.text.trim(),
                             phone: phController.text,
@@ -175,14 +176,12 @@ class SignUp extends HookConsumerWidget {
                             password: passController.text,
                             lifeStory: storyController.text.trim(),
                           );
+                          _user!.isLoggedin=true;
 
-                          Future(
-                            () {
-                              ref
-                                  .watch(userStateProvider.notifier)
-                                  .updateUserState(_user!);
-                            },
-                          ).whenComplete(
+                          ref
+                              .watch(userStateProvider.notifier)
+                              .updateUserState(_user!)
+                              .whenComplete(
                             () {
                               Navigator.pushAndRemoveUntil(
                                 context,

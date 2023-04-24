@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/view/screens/login.dart';
@@ -10,10 +12,10 @@ class SplashScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final user = ref.read(userStateProvider);
-    Future(() async {
-        return ref.watch(userStateProvider);
-    }).then((user) {
-      if (user != null) {
+
+    ref.watch(userStateProvider.notifier).getUserState().then((user) {
+      log('--$user');
+      if (user != null && user.isLoggedin) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

@@ -1,3 +1,7 @@
+
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,11 +35,11 @@ class CustomNavigationBar extends HookConsumerWidget {
     final int tapIndex = ref.watch(tapIndexProvider);
     final User? user = ref.watch(userStateProvider);
     final bool isEditing = ref.watch(isEditingProvider);
-    // ref.watch(listProvider);
+    
 
     final TextEditingController searchController = useTextEditingController();
 
-    debugPrint('-$user-');
+    log('-$user-');
 
     final List<Widget> taps = [
       const MyMenu(),

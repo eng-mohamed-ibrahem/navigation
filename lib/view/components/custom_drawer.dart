@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/controller/providers/shared_preference_provider.dart';
+import 'package:navigation/controller/providers/user_state_provider.dart';
 import 'package:navigation/view/screens/login.dart';
 
 class CustomDrawer extends ConsumerWidget {
@@ -56,19 +57,17 @@ class CustomDrawer extends ConsumerWidget {
                               child: const Text('Cancel')),
                           ElevatedButton(
                             onPressed: () async {
-                              // clear cach data
-                              ref.watch(sharedPreferenceProvider.future).then(
-                                    (shared) async => await shared
-                                        .clear()
-                                        .whenComplete(
-                                          () => Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => Login(),
-                                              ),
-                                              (route) => false),
-                                        ),
-                                  );
+                              // logout
+                              ref
+                                  .watch(userStateProvider.notifier)
+                                  .updateOnly(isLoggedin: false)
+                                  .whenComplete(
+                                      () => Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Login(),
+                                          ),
+                                          (route) => false));
                             },
                             child: const Text('OK'),
                           ),

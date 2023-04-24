@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class User {
+  bool isLoggedin = false;
+  String name;
+  String phone;
+  String email;
+  String? lifeStory;
+  String password;
+  num salary;
 
-  final String? name;
-  final String? phone;
-  final String? email;
-  final String? lifeStory;
-  final String? password;
-  final num? salary;
-  
   User(
       {required this.email,
       required this.lifeStory,
@@ -19,6 +19,7 @@ class User {
 
   Map<String, dynamic> _toJson() {
     return {
+      'isLoggedin': isLoggedin,
       'name': name,
       'email': email,
       'phone': phone,
@@ -31,14 +32,13 @@ class User {
   factory User.fromJson({required String jsonUser}) {
     Map<String, dynamic> user = jsonDecode(jsonUser);
 
-    
     return User(
         name: user['name'],
         email: user['email'],
         phone: user['phone'],
         password: user['password'],
         salary: user['salary'],
-        lifeStory: user['life_story']);
+        lifeStory: user['life_story'])..isLoggedin =  user['isLoggedin'];
   }
 
   ///
