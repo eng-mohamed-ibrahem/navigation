@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:navigation/controller/providers/shared_preference_provider.dart';
 import 'package:navigation/controller/providers/user_state_provider.dart';
 import 'package:navigation/view/screens/login.dart';
 

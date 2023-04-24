@@ -48,20 +48,20 @@ class NavProfile extends StatelessWidget {
           CustomizedTextFormField(
             readOnly: true,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: '${user!.name}',
+            hintText: user!.name,
             labelText: 'My Name',
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: '${user!.email}',
+            hintText: user!.email,
             label: const Text('My Email'),
           ),
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
-            hintText: '${user!.phone}',
+            hintText: user!.phone,
             label: const Text('My Mobile Number'),
             floatingLabelBehavior: FloatingLabelBehavior.always,
 
@@ -84,7 +84,7 @@ class NavProfile extends StatelessWidget {
           const SizedBox(height: 20),
           CustomizedTextFormField(
             readOnly: true,
-            hintText: '${user!.password}',
+            hintText: user!.password,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             label: const Text('My Password'),
           ),

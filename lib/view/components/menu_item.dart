@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,8 +14,15 @@ class MenuItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isLiked = ref.watch(isLikedProvider);
-    
+    ref.watch(isLikedProvider);
+
+    // to initialized provider with foodItem properties
+    Future(
+      () => ref
+          .read(isLikedProvider.notifier)
+          .update((state) => foodItem.isLiked),
+    );
+
     return Card(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -39,8 +45,7 @@ class MenuItem extends ConsumerWidget {
                   ],
                   child: InkWell(
                     onDoubleTap: () {
-                      foodItem.isLiked = !isLiked;
-                      log('${!isLiked}');
+                      foodItem.isLiked = !ref.read(isLikedProvider);
                       foodItem.isLiked
                           ? ref
                               .read(favortiesFoodProvider.notifier)
@@ -48,8 +53,7 @@ class MenuItem extends ConsumerWidget {
                           : ref
                               .read(favortiesFoodProvider.notifier)
                               .removeFavoriteItem(foodItem);
-                       ref.watch(isLikedProvider.notifier).state = !isLiked;
-                          
+                      ref.watch(isLikedProvider.notifier).state = !ref.read(isLikedProvider);
                     },
                     child: Image.asset(
                       foodItem.imageUri,
@@ -64,18 +68,15 @@ class MenuItem extends ConsumerWidget {
                     top: 10,
                     child: InkWell(
                       onTap: () {
-                        foodItem.isLiked = !isLiked;
-                        log('${!isLiked}');
-                        !isLiked
+                        foodItem.isLiked = !ref.read(isLikedProvider); 
+                        foodItem.isLiked
                             ? ref
                                 .read(favortiesFoodProvider.notifier)
                                 .addFavortieItem(foodItem)
                             : ref
                                 .read(favortiesFoodProvider.notifier)
                                 .removeFavoriteItem(foodItem);
-                        ref
-                            .watch(isLikedProvider.notifier)
-                            .update((state) => !isLiked);
+                        ref.watch(isLikedProvider.notifier).state = !ref.read(isLikedProvider);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
