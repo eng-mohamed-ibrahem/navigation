@@ -62,6 +62,7 @@ class Login extends HookConsumerWidget {
                   autovalidateMode: AutovalidateMode.disabled,
                   controller: passController,
                   labelText: 'Password',
+                  validator: (value) => value!.isEmpty ? 'Ente the password' : null,
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   obscureText: !visibilty,
                   suffixIcon: InkWell(
@@ -122,13 +123,15 @@ class Login extends HookConsumerWidget {
                         // show snakbar
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text(
-                              'Email or password is invalid',
-                              style: TextStyle(color: Colors.white),
+                            width: 250,
+                            behavior: SnackBarBehavior.floating,
+                            content: const Center(
+                              child: Text(
+                                'Email or Password is invalid',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
-                            action:
-                                SnackBarAction(label: 'Ok', onPressed: () {}),
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(15),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                           ),

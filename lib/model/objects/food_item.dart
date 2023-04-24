@@ -36,4 +36,10 @@ class FoodItem extends Comparable<FoodItem> {
     }
     return 0;
   }
+
+  @override
+  String toString() {
+    return {'name':name,'price': price, 'rating': rating, }.toString();
+  }
+  
 }

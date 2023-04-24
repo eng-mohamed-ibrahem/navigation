@@ -88,10 +88,15 @@ class ForgetPassword extends HookConsumerWidget {
                   // send otp authentication
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      padding: const EdgeInsets.all(10),
-                      content: Text(
-                          'sent code to ${_displayCode!.dialCode} - ${phController.text}'),
-                      dismissDirection: DismissDirection.down,
+                      width: 300,
+                      behavior: SnackBarBehavior.floating,
+                      padding: const EdgeInsets.all(15),
+                      content: Center(
+                        child: Text(
+                            'sent code to ${_displayCode!.dialCode} - ${phController.text}'),
+                      ),
+                      shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                     ),
                   );
                 }

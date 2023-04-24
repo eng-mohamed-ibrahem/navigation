@@ -20,7 +20,22 @@ class FavoriteFood extends ConsumerWidget {
       return ListView.builder(
         padding: const EdgeInsets.all(10),
         itemBuilder: (context, index) {
-          return FavoriteMenuItem(foodItem: list.elementAt(index));
+          return Stack(children: [
+            FavoriteMenuItem(foodItem: list.elementAt(index)),
+            Positioned(
+              bottom: 50,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: () {
+                  list.elementAt(index).isLiked = false;
+                  ref
+                      .watch(favortiesFoodProvider.notifier)
+                      .removeFavoriteItem(list.elementAt(index));
+                },
+                child: const Icon(Icons.clear_outlined),
+              ),
+            )
+          ]);
         },
         itemCount: list.length,
       );

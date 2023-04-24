@@ -1,23 +1,22 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/model/objects/food_item.dart';
-
 import '../../controller/providers/favorites_food_provider.dart';
 
 class MenuItem extends ConsumerWidget {
   final FoodItem foodItem;
   MenuItem({super.key, required this.foodItem});
 
-  final StateProvider<bool> isLikedProvider = StateProvider<bool>(
-    (ref) => false,
-  );
+  final AutoDisposeStateProvider<bool> isLikedProvider =
+      StateProvider.autoDispose<bool>((ref) => false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isLiked = ref.watch(isLikedProvider);
-
+    
     return Card(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
@@ -41,16 +40,16 @@ class MenuItem extends ConsumerWidget {
                   child: InkWell(
                     onDoubleTap: () {
                       foodItem.isLiked = !isLiked;
-                      !isLiked
+                      log('${!isLiked}');
+                      foodItem.isLiked
                           ? ref
-                              .watch(favortiesFoodProvider.notifier)
+                              .read(favortiesFoodProvider.notifier)
                               .addFavortieItem(foodItem)
                           : ref
-                              .watch(favortiesFoodProvider.notifier)
+                              .read(favortiesFoodProvider.notifier)
                               .removeFavoriteItem(foodItem);
-                      ref
-                          .watch(isLikedProvider.notifier)
-                          .update((state) => !isLiked);
+                       ref.watch(isLikedProvider.notifier).state = !isLiked;
+                          
                     },
                     child: Image.asset(
                       foodItem.imageUri,
@@ -66,12 +65,13 @@ class MenuItem extends ConsumerWidget {
                     child: InkWell(
                       onTap: () {
                         foodItem.isLiked = !isLiked;
+                        log('${!isLiked}');
                         !isLiked
                             ? ref
-                                .watch(favortiesFoodProvider.notifier)
+                                .read(favortiesFoodProvider.notifier)
                                 .addFavortieItem(foodItem)
                             : ref
-                                .watch(favortiesFoodProvider.notifier)
+                                .read(favortiesFoodProvider.notifier)
                                 .removeFavoriteItem(foodItem);
                         ref
                             .watch(isLikedProvider.notifier)

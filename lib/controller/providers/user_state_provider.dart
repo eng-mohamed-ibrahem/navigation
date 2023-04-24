@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation/controller/providers/shared_preference_provider.dart';
 import 'package:navigation/model/utility/constants.dart';
