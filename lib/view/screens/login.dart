@@ -9,13 +9,11 @@ import '../../model/objects/user.dart';
 import '../../model/utility/utility_methods.dart';
 import '../components/customized_edit_form_text.dart';
 
+final AutoDisposeStateProvider<bool> visibilityProvider =
+    StateProvider.autoDispose<bool>((ref) => false);
+
 class Login extends HookConsumerWidget {
-  Login({super.key});
-
-  final AutoDisposeStateProvider<bool> visibilityProvider =
-      StateProvider.autoDispose<bool>((ref) => false);
-
-  late User? _user;
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +21,7 @@ class Login extends HookConsumerWidget {
     final TextEditingController passController = useTextEditingController();
     final globalFormKey = useMemoized(() => GlobalKey<FormState>());
 
-    _user = ref.watch(userStateProvider);
+    final User? user = ref.watch(userStateProvider);
 
     final visibilty = ref.watch(visibilityProvider);
 
@@ -62,7 +60,8 @@ class Login extends HookConsumerWidget {
                   autovalidateMode: AutovalidateMode.disabled,
                   controller: passController,
                   labelText: 'Password',
-                  validator: (value) => value!.isEmpty ? 'Ente the password' : null,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Ente the password' : null,
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   obscureText: !visibilty,
                   suffixIcon: InkWell(
@@ -85,7 +84,7 @@ class Login extends HookConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgetPassword(),
+                          builder: (context) => const ForgetPassword(),
                         ),
                       );
                     },
@@ -105,9 +104,9 @@ class Login extends HookConsumerWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (globalFormKey.currentState!.validate()) {
-                      if (_user != null &&
-                          _user!.email == (emailController.text.trim()) &&
-                          _user!.password == passController.text) {
+                      if (user != null &&
+                          user.email == (emailController.text.trim()) &&
+                          user.password == passController.text) {
                         ref
                             .watch(userStateProvider.notifier)
                             .updateOnly(isLoggedin: true);
@@ -158,7 +157,7 @@ class Login extends HookConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignUp(),
+                          builder: (context) => const SignUp(),
                         ),
                       );
                     },

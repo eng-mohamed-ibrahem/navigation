@@ -8,16 +8,14 @@ import 'package:navigation/view/components/customized_edit_form_text.dart';
 import '../../model/utility/utility_methods.dart';
 
 class ForgetPassword extends HookConsumerWidget {
-  ForgetPassword({super.key});
-
-  CountryCode? _displayCode;
+  const ForgetPassword({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController phController = useTextEditingController();
     final GlobalKey<FormState> globalKey =
         useMemoized(() => GlobalKey<FormState>());
-
+    CountryCode? displayCode;
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -52,13 +50,13 @@ class ForgetPassword extends HookConsumerWidget {
                   fit: FlexFit.tight,
                   child: CountryCodePicker(
                     onInit: (value) {
-                      _displayCode = value;
+                      displayCode = value;
                     },
                     showDropDownButton: true,
                     favorite: const ['EG', 'US'],
                     initialSelection: 'EG',
                     onChanged: (value) {
-                      _displayCode = value;
+                      displayCode = value;
                     },
                   ),
                 ),
@@ -93,10 +91,10 @@ class ForgetPassword extends HookConsumerWidget {
                       padding: const EdgeInsets.all(15),
                       content: Center(
                         child: Text(
-                            'sent code to ${_displayCode!.dialCode} - ${phController.text}'),
+                            'sent code to ${displayCode!.dialCode} - ${phController.text}'),
                       ),
                       shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10)),
                     ),
                   );
                 }

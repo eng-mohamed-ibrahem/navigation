@@ -8,20 +8,18 @@ import '../../model/objects/user.dart';
 import '../components/customized_edit_form_text.dart';
 import '../../model/utility/utility_methods.dart';
 
+final AutoDisposeStateProvider<bool> visibilityProvider =
+    StateProvider.autoDispose<bool>(
+  (ref) => false,
+);
+
+final AutoDisposeStateProvider<bool> isLoadingProvider =
+    StateProvider.autoDispose<bool>(
+  (ref) => false,
+);
+
 class SignUp extends HookConsumerWidget {
-  SignUp({super.key});
-
-  final AutoDisposeStateProvider<bool> visibilityProvider =
-      StateProvider.autoDispose<bool>(
-    (ref) => false,
-  );
-
-  final AutoDisposeStateProvider<bool> isLoadingProvider =
-      StateProvider.autoDispose<bool>(
-    (ref) => false,
-  );
-
-  late User? _user;
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +35,8 @@ class SignUp extends HookConsumerWidget {
 
     final visibility = ref.watch(visibilityProvider);
     final isLoading = ref.watch(isLoadingProvider);
+
+    late User? user;
 
     return Scaffold(
       appBar: AppBar(
@@ -167,8 +167,8 @@ class SignUp extends HookConsumerWidget {
                           ref
                               .watch(isLoadingProvider.notifier)
                               .update((state) => !isLoading);
-                              
-                          _user = User(
+
+                          user = User(
                             name: nameController.text.trim(),
                             phone: phController.text,
                             email: emailController.text.trim(),
@@ -176,11 +176,11 @@ class SignUp extends HookConsumerWidget {
                             password: passController.text,
                             lifeStory: storyController.text.trim(),
                           );
-                          _user!.isLoggedin=true;
+                          user!.isLoggedin = true;
 
                           ref
                               .watch(userStateProvider.notifier)
-                              .updateUserState(_user!)
+                              .updateUserState(user!)
                               .whenComplete(
                             () {
                               Navigator.pushAndRemoveUntil(
